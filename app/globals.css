@@ -1,0 +1,316 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------------------------------------
+   Design tokens. Dark is the default; light is a full alternative palette, not an inversion.
+   Timing colours (purple / green / yellow) are reserved for timing meaning only.
+   ------------------------------------------------------------------------------------------------ */
+:root {
+  --bg: #090a0d;
+  --bg-2: #101216;
+  --panel: #171a20;
+  --panel-2: #1d2128;
+  --line: #292d35;
+  --line-soft: #1f232a;
+  --text: #f4f5f7;
+  --text-2: #969da8;
+  --text-3: #6a717c;
+  --accent: #e10600;
+  --accent-soft: rgba(225, 6, 0, 0.14);
+  --t-purple: #9b72ff;
+  --t-green: #35d07f;
+  --t-yellow: #f5c542;
+  --t-red: #ff4d4f;
+  --t-blue: #4c8dff;
+  --demo: #f59e0b;
+  --demo-soft: rgba(245, 158, 11, 0.12);
+  --row-hover: rgba(255, 255, 255, 0.035);
+  --row-selected: rgba(76, 141, 255, 0.12);
+  --flash: rgba(255, 255, 255, 0.16);
+  --tyre-soft: #e8332b;
+  --tyre-medium: #f5c542;
+  --tyre-hard: #e9ecef;
+  --tyre-inter: #39b54a;
+  --tyre-wet: #2f7de1;
+  --shadow: 0 1px 0 rgba(255, 255, 255, 0.02);
+  /* Chart series: validated categorical order (dark steps). Never used for timing meaning. */
+  --series-1: #3987e5;
+  --series-2: #d95926;
+  --series-3: #199e70;
+  --series-4: #c98500;
+  --series-5: #d55181;
+  --series-6: #008300;
+  --series-7: #9085e9;
+  --series-8: #e66767;
+  --grid: #22262d;
+  color-scheme: dark;
+}
+
+[data-theme="light"] {
+  --bg: #eef0f3;
+  --bg-2: #e5e8ec;
+  --panel: #ffffff;
+  --panel-2: #f5f6f8;
+  --line: #d4d8df;
+  --line-soft: #e6e9ee;
+  --text: #0d1015;
+  --text-2: #565d68;
+  --text-3: #858c97;
+  --accent: #cf0500;
+  --accent-soft: rgba(207, 5, 0, 0.1);
+  --t-purple: #6a3fe0;
+  --t-green: #0f8a4c;
+  --t-yellow: #9a6f00;
+  --t-red: #c81e1e;
+  --t-blue: #1f5fd6;
+  --demo: #b45309;
+  --demo-soft: rgba(180, 83, 9, 0.1);
+  --row-hover: rgba(0, 0, 0, 0.03);
+  --row-selected: rgba(31, 95, 214, 0.1);
+  --flash: rgba(0, 0, 0, 0.09);
+  --tyre-hard: #ffffff;
+  --shadow: 0 1px 2px rgba(15, 20, 30, 0.06);
+  --series-1: #2a78d6;
+  --series-2: #eb6834;
+  --series-3: #1baf7a;
+  --series-4: #eda100;
+  --series-5: #e87ba4;
+  --series-6: #008300;
+  --series-7: #6250d6;
+  --series-8: #e34948;
+  --grid: #e3e6eb;
+  color-scheme: light;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-2: var(--bg-2);
+  --color-panel: var(--panel);
+  --color-panel-2: var(--panel-2);
+  --color-line: var(--line);
+  --color-line-soft: var(--line-soft);
+  --color-fg: var(--text);
+  --color-fg-2: var(--text-2);
+  --color-fg-3: var(--text-3);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-purple: var(--t-purple);
+  --color-green: var(--t-green);
+  --color-yellow: var(--t-yellow);
+  --color-red: var(--t-red);
+  --color-blue: var(--t-blue);
+  --color-demo: var(--demo);
+  --color-demo-soft: var(--demo-soft);
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-barlow), var(--font-inter), ui-sans-serif, sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+
+html,
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Tabular numerals everywhere numbers are compared in columns. */
+.tnum {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1, "zero" 0;
+  letter-spacing: -0.005em;
+}
+
+.display {
+  font-family: var(--font-display);
+  letter-spacing: 0.01em;
+}
+
+/* Panels: thin borders, minimal rounding. */
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  box-shadow: var(--shadow);
+}
+
+.panel-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 34px;
+  padding: 0 10px;
+  border-bottom: 1px solid var(--line);
+}
+
+.panel-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text);
+}
+
+.label {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+/* Timing marks */
+.m-session-best {
+  color: var(--t-purple);
+}
+.m-personal-best {
+  color: var(--t-green);
+}
+.m-normal {
+  color: var(--t-yellow);
+}
+.m-invalid {
+  color: var(--text-3);
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
+}
+.m-carried {
+  opacity: 0.45;
+}
+
+/* Value-change flash: brief background pulse, then back to normal. */
+@keyframes flash-cell {
+  0% {
+    background-color: var(--flash);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+.flash {
+  animation: flash-cell 1.1s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flash {
+    animation: none;
+  }
+}
+
+/* Form controls */
+.control {
+  height: 28px;
+  border: 1px solid var(--line);
+  background: var(--bg-2);
+  color: var(--text);
+  border-radius: 3px;
+  padding: 0 8px;
+  font-size: 12px;
+}
+.control:hover {
+  border-color: color-mix(in srgb, var(--line) 50%, var(--text-2));
+}
+.control:focus-visible,
+.btn:focus-visible,
+.focus-ring:focus-visible {
+  outline: 2px solid var(--t-blue);
+  outline-offset: 1px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  background: var(--bg-2);
+  color: var(--text);
+  border-radius: 3px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.btn:hover {
+  background: var(--panel-2);
+}
+.btn[aria-pressed="true"],
+.btn[data-active="true"] {
+  background: var(--panel-2);
+  border-color: var(--text-3);
+}
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.btn-icon {
+  width: 28px;
+  padding: 0;
+  justify-content: center;
+}
+
+select.control {
+  appearance: none;
+  padding-right: 24px;
+  background-image: linear-gradient(45deg, transparent 50%, var(--text-2) 50%), linear-gradient(135deg, var(--text-2) 50%, transparent 50%);
+  background-position:
+    calc(100% - 12px) 12px,
+    calc(100% - 8px) 12px;
+  background-size:
+    4px 4px,
+    4px 4px;
+  background-repeat: no-repeat;
+}
+
+/* Scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
+}
+
+/* Table defaults for dense data */
+.data-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+.data-table th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--panel);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  text-align: left;
+  padding: 0 8px;
+  height: 28px;
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+.data-table td {
+  padding: 0 8px;
+  height: 28px;
+  border-bottom: 1px solid var(--line-soft);
+  white-space: nowrap;
+}
+.data-table tbody tr:hover td {
+  background: var(--row-hover);
+}
+
+.recharts-tooltip-wrapper {
+  outline: none;
+}
+.recharts-wrapper:focus,
+.recharts-surface:focus {
+  outline: none;
+}

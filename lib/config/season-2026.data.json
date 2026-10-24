@@ -1,0 +1,1817 @@
+{
+  "season": 2026,
+  "generatedAt": "2026-10-24T15:51:22.250Z",
+  "sources": [
+    "https://api.openf1.org/v1/meetings?year=2026",
+    "https://api.openf1.org/v1/sessions?year=2026",
+    "https://api.jolpi.ca/ergast/f1/2026.json",
+    "https://api.jolpi.ca/ergast/f1/2026/circuits.json"
+  ],
+  "warnings": [],
+  "events": [
+    {
+      "id": "2026-testing-1304",
+      "season": 2026,
+      "round": null,
+      "openf1MeetingKey": 1304,
+      "name": "Pre-Season Testing",
+      "officialName": "FORMULA 1 ARAMCO PRE-SEASON TESTING 1 2026",
+      "jolpicaRaceName": null,
+      "status": "scheduled",
+      "format": "testing",
+      "startDate": "2026-02-11",
+      "endDate": "2026-02-13",
+      "gmtOffset": "03:00:00",
+      "circuit": {
+        "id": "sakhir",
+        "openf1CircuitKey": 63,
+        "name": "Sakhir",
+        "shortName": "Sakhir",
+        "locality": "Bahrain",
+        "country": "Bahrain",
+        "type": "Permanent",
+        "lat": null,
+        "long": null,
+        "timeZone": "Asia/Bahrain"
+      },
+      "sessions": [
+        {
+          "openf1SessionKey": 11465,
+          "name": "Day 1",
+          "type": "TESTING",
+          "start": "2026-02-11T07:00:00.000Z",
+          "end": "2026-02-11T16:00:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11466,
+          "name": "Day 2",
+          "type": "TESTING",
+          "start": "2026-02-12T07:00:00.000Z",
+          "end": "2026-02-12T16:00:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11467,
+          "name": "Day 3",
+          "type": "TESTING",
+          "start": "2026-02-13T07:00:00.000Z",
+          "end": "2026-02-13T16:00:00.000Z",
+          "cancelled": false
+        }
+      ]
+    },
+    {
+      "id": "2026-testing-1305",
+      "season": 2026,
+      "round": null,
+      "openf1MeetingKey": 1305,
+      "name": "Pre-Season Testing",
+      "officialName": "FORMULA 1 ARAMCO PRE-SEASON TESTING 2 2026",
+      "jolpicaRaceName": null,
+      "status": "scheduled",
+      "format": "testing",
+      "startDate": "2026-02-18",
+      "endDate": "2026-02-20",
+      "gmtOffset": "03:00:00",
+      "circuit": {
+        "id": "sakhir",
+        "openf1CircuitKey": 63,
+        "name": "Sakhir",
+        "shortName": "Sakhir",
+        "locality": "Bahrain",
+        "country": "Bahrain",
+        "type": "Permanent",
+        "lat": null,
+        "long": null,
+        "timeZone": "Asia/Bahrain"
+      },
+      "sessions": [
+        {
+          "openf1SessionKey": 11470,
+          "name": "Day 1",
+          "type": "TESTING",
+          "start": "2026-02-18T07:00:00.000Z",
+          "end": "2026-02-18T16:00:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11469,
+          "name": "Day 2",
+          "type": "TESTING",
+          "start": "2026-02-19T07:00:00.000Z",
+          "end": "2026-02-19T16:00:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11468,
+          "name": "Day 3",
+          "type": "TESTING",
+          "start": "2026-02-20T07:00:00.000Z",
+          "end": "2026-02-20T16:00:00.000Z",
+          "cancelled": false
+        }
+      ]
+    },
+    {
+      "id": "2026-australian-grand-prix",
+      "season": 2026,
+      "round": 1,
+      "openf1MeetingKey": 1279,
+      "name": "Australian Grand Prix",
+      "officialName": "FORMULA 1 QATAR AIRWAYS AUSTRALIAN GRAND PRIX 2026",
+      "jolpicaRaceName": "Australian Grand Prix",
+      "status": "scheduled",
+      "format": "standard",
+      "startDate": "2026-03-06",
+      "endDate": "2026-03-08",
+      "gmtOffset": "11:00:00",
+      "circuit": {
+        "id": "albert_park",
+        "openf1CircuitKey": 10,
+        "name": "Albert Park Grand Prix Circuit",
+        "shortName": "Melbourne",
+        "locality": "Melbourne",
+        "country": "Australia",
+        "type": "Temporary - Street",
+        "lat": -37.8497,
+        "long": 144.968,
+        "timeZone": "Australia/Melbourne"
+      },
+      "sessions": [
+        {
+          "openf1SessionKey": 11227,
+          "name": "Practice 1",
+          "type": "PRACTICE",
+          "start": "2026-03-06T01:30:00.000Z",
+          "end": "2026-03-06T02:30:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11228,
+          "name": "Practice 2",
+          "type": "PRACTICE",
+          "start": "2026-03-06T05:00:00.000Z",
+          "end": "2026-03-06T06:00:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11229,
+          "name": "Practice 3",
+          "type": "PRACTICE",
+          "start": "2026-03-07T01:30:00.000Z",
+          "end": "2026-03-07T02:30:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11230,
+          "name": "Qualifying",
+          "type": "QUALIFYING",
+          "start": "2026-03-07T05:00:00.000Z",
+          "end": "2026-03-07T06:00:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11234,
+          "name": "Race",
+          "type": "RACE",
+          "start": "2026-03-08T04:00:00.000Z",
+          "end": "2026-03-08T06:00:00.000Z",
+          "cancelled": false
+        }
+      ]
+    },
+    {
+      "id": "2026-chinese-grand-prix",
+      "season": 2026,
+      "round": 2,
+      "openf1MeetingKey": 1280,
+      "name": "Chinese Grand Prix",
+      "officialName": "FORMULA 1 HEINEKEN CHINESE GRAND PRIX 2026",
+      "jolpicaRaceName": "Chinese Grand Prix",
+      "status": "scheduled",
+      "format": "sprint",
+      "startDate": "2026-03-13",
+      "endDate": "2026-03-15",
+      "gmtOffset": "08:00:00",
+      "circuit": {
+        "id": "shanghai",
+        "openf1CircuitKey": 49,
+        "name": "Shanghai International Circuit",
+        "shortName": "Shanghai",
+        "locality": "Shanghai",
+        "country": "China",
+        "type": "Permanent",
+        "lat": 31.3389,
+        "long": 121.22,
+        "timeZone": "Asia/Shanghai"
+      },
+      "sessions": [
+        {
+          "openf1SessionKey": 11235,
+          "name": "Practice 1",
+          "type": "PRACTICE",
+          "start": "2026-03-13T03:30:00.000Z",
+          "end": "2026-03-13T04:30:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11236,
+          "name": "Sprint Qualifying",
+          "type": "SPRINT_QUALIFYING",
+          "start": "2026-03-13T07:30:00.000Z",
+          "end": "2026-03-13T08:14:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11240,
+          "name": "Sprint",
+          "type": "SPRINT",
+          "start": "2026-03-14T03:00:00.000Z",
+          "end": "2026-03-14T04:00:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11241,
+          "name": "Qualifying",
+          "type": "QUALIFYING",
+          "start": "2026-03-14T07:00:00.000Z",
+          "end": "2026-03-14T08:00:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11245,
+          "name": "Race",
+          "type": "RACE",
+          "start": "2026-03-15T07:00:00.000Z",
+          "end": "2026-03-15T09:00:00.000Z",
+          "cancelled": false
+        }
+      ]
+    },
+    {
+      "id": "2026-japanese-grand-prix",
+      "season": 2026,
+      "round": 3,
+      "openf1MeetingKey": 1281,
+      "name": "Japanese Grand Prix",
+      "officialName": "FORMULA 1 ARAMCO JAPANESE GRAND PRIX 2026",
+      "jolpicaRaceName": "Japanese Grand Prix",
+      "status": "scheduled",
+      "format": "standard",
+      "startDate": "2026-03-27",
+      "endDate": "2026-03-29",
+      "gmtOffset": "09:00:00",
+      "circuit": {
+        "id": "suzuka",
+        "openf1CircuitKey": 46,
+        "name": "Suzuka Circuit",
+        "shortName": "Suzuka",
+        "locality": "Suzuka",
+        "country": "Japan",
+        "type": "Permanent",
+        "lat": 34.8431,
+        "long": 136.541,
+        "timeZone": "Asia/Tokyo"
+      },
+      "sessions": [
+        {
+          "openf1SessionKey": 11246,
+          "name": "Practice 1",
+          "type": "PRACTICE",
+          "start": "2026-03-27T02:30:00.000Z",
+          "end": "2026-03-27T03:30:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11247,
+          "name": "Practice 2",
+          "type": "PRACTICE",
+          "start": "2026-03-27T06:00:00.000Z",
+          "end": "2026-03-27T07:00:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11248,
+          "name": "Practice 3",
+          "type": "PRACTICE",
+          "start": "2026-03-28T02:30:00.000Z",
+          "end": "2026-03-28T03:30:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11249,
+          "name": "Qualifying",
+          "type": "QUALIFYING",
+          "start": "2026-03-28T06:00:00.000Z",
+          "end": "2026-03-28T07:00:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11253,
+          "name": "Race",
+          "type": "RACE",
+          "start": "2026-03-29T05:00:00.000Z",
+          "end": "2026-03-29T07:00:00.000Z",
+          "cancelled": false
+        }
+      ]
+    },
+    {
+      "id": "2026-bahrain-grand-prix",
+      "season": 2026,
+      "round": null,
+      "openf1MeetingKey": 1282,
+      "name": "Bahrain Grand Prix",
+      "officialName": "FORMULA 1 GULF AIR BAHRAIN GRAND PRIX 2026",
+      "jolpicaRaceName": null,
+      "status": "cancelled",
+      "format": "standard",
+      "startDate": "2026-04-10",
+      "endDate": "2026-04-12",
+      "gmtOffset": "03:00:00",
+      "circuit": {
+        "id": "sakhir",
+        "openf1CircuitKey": 63,
+        "name": "Sakhir",
+        "shortName": "Sakhir",
+        "locality": "Sakhir",
+        "country": "Bahrain",
+        "type": "Permanent",
+        "lat": null,
+        "long": null,
+        "timeZone": "Asia/Bahrain"
+      },
+      "sessions": [
+        {
+          "openf1SessionKey": 11254,
+          "name": "Practice 1",
+          "type": "PRACTICE",
+          "start": "2026-04-10T11:30:00.000Z",
+          "end": "2026-04-10T12:30:00.000Z",
+          "cancelled": true
+        },
+        {
+          "openf1SessionKey": 11255,
+          "name": "Practice 2",
+          "type": "PRACTICE",
+          "start": "2026-04-10T15:00:00.000Z",
+          "end": "2026-04-10T16:00:00.000Z",
+          "cancelled": true
+        },
+        {
+          "openf1SessionKey": 11256,
+          "name": "Practice 3",
+          "type": "PRACTICE",
+          "start": "2026-04-11T12:30:00.000Z",
+          "end": "2026-04-11T13:30:00.000Z",
+          "cancelled": true
+        },
+        {
+          "openf1SessionKey": 11257,
+          "name": "Qualifying",
+          "type": "QUALIFYING",
+          "start": "2026-04-11T16:00:00.000Z",
+          "end": "2026-04-11T17:00:00.000Z",
+          "cancelled": true
+        },
+        {
+          "openf1SessionKey": 11261,
+          "name": "Race",
+          "type": "RACE",
+          "start": "2026-04-12T15:00:00.000Z",
+          "end": "2026-04-12T17:00:00.000Z",
+          "cancelled": true
+        }
+      ]
+    },
+    {
+      "id": "2026-saudi-arabian-grand-prix",
+      "season": 2026,
+      "round": null,
+      "openf1MeetingKey": 1283,
+      "name": "Saudi Arabian Grand Prix",
+      "officialName": "FORMULA 1 STC SAUDI ARABIAN GRAND PRIX 2026",
+      "jolpicaRaceName": null,
+      "status": "cancelled",
+      "format": "standard",
+      "startDate": "2026-04-17",
+      "endDate": "2026-04-19",
+      "gmtOffset": "03:00:00",
+      "circuit": {
+        "id": "jeddah",
+        "openf1CircuitKey": 149,
+        "name": "Jeddah",
+        "shortName": "Jeddah",
+        "locality": "Jeddah",
+        "country": "Saudi Arabia",
+        "type": "Temporary - Street",
+        "lat": null,
+        "long": null,
+        "timeZone": "Asia/Riyadh"
+      },
+      "sessions": [
+        {
+          "openf1SessionKey": 11262,
+          "name": "Practice 1",
+          "type": "PRACTICE",
+          "start": "2026-04-17T13:30:00.000Z",
+          "end": "2026-04-17T14:30:00.000Z",
+          "cancelled": true
+        },
+        {
+          "openf1SessionKey": 11263,
+          "name": "Practice 2",
+          "type": "PRACTICE",
+          "start": "2026-04-17T17:00:00.000Z",
+          "end": "2026-04-17T18:00:00.000Z",
+          "cancelled": true
+        },
+        {
+          "openf1SessionKey": 11264,
+          "name": "Practice 3",
+          "type": "PRACTICE",
+          "start": "2026-04-18T13:30:00.000Z",
+          "end": "2026-04-18T14:30:00.000Z",
+          "cancelled": true
+        },
+        {
+          "openf1SessionKey": 11265,
+          "name": "Qualifying",
+          "type": "QUALIFYING",
+          "start": "2026-04-18T17:00:00.000Z",
+          "end": "2026-04-18T18:00:00.000Z",
+          "cancelled": true
+        },
+        {
+          "openf1SessionKey": 11269,
+          "name": "Race",
+          "type": "RACE",
+          "start": "2026-04-19T17:00:00.000Z",
+          "end": "2026-04-19T19:00:00.000Z",
+          "cancelled": true
+        }
+      ]
+    },
+    {
+      "id": "2026-miami-grand-prix",
+      "season": 2026,
+      "round": 4,
+      "openf1MeetingKey": 1284,
+      "name": "Miami Grand Prix",
+      "officialName": "FORMULA 1 CRYPTO.COM MIAMI GRAND PRIX 2026",
+      "jolpicaRaceName": "Miami Grand Prix",
+      "status": "scheduled",
+      "format": "sprint",
+      "startDate": "2026-05-01",
+      "endDate": "2026-05-03",
+      "gmtOffset": "-04:00:00",
+      "circuit": {
+        "id": "miami",
+        "openf1CircuitKey": 151,
+        "name": "Miami International Autodrome",
+        "shortName": "Miami",
+        "locality": "Miami",
+        "country": "USA",
+        "type": "Temporary - Street",
+        "lat": 25.9581,
+        "long": -80.2389,
+        "timeZone": "America/New_York"
+      },
+      "sessions": [
+        {
+          "openf1SessionKey": 11270,
+          "name": "Practice 1",
+          "type": "PRACTICE",
+          "start": "2026-05-01T16:00:00.000Z",
+          "end": "2026-05-01T17:30:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11271,
+          "name": "Sprint Qualifying",
+          "type": "SPRINT_QUALIFYING",
+          "start": "2026-05-01T20:30:00.000Z",
+          "end": "2026-05-01T21:14:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11275,
+          "name": "Sprint",
+          "type": "SPRINT",
+          "start": "2026-05-02T16:00:00.000Z",
+          "end": "2026-05-02T17:00:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11276,
+          "name": "Qualifying",
+          "type": "QUALIFYING",
+          "start": "2026-05-02T20:00:00.000Z",
+          "end": "2026-05-02T21:00:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11280,
+          "name": "Race",
+          "type": "RACE",
+          "start": "2026-05-03T17:00:00.000Z",
+          "end": "2026-05-03T19:00:00.000Z",
+          "cancelled": false
+        }
+      ]
+    },
+    {
+      "id": "2026-canadian-grand-prix",
+      "season": 2026,
+      "round": 5,
+      "openf1MeetingKey": 1285,
+      "name": "Canadian Grand Prix",
+      "officialName": "FORMULA 1 LENOVO GRAND PRIX DU CANADA 2026",
+      "jolpicaRaceName": "Canadian Grand Prix",
+      "status": "scheduled",
+      "format": "sprint",
+      "startDate": "2026-05-22",
+      "endDate": "2026-05-24",
+      "gmtOffset": "-04:00:00",
+      "circuit": {
+        "id": "villeneuve",
+        "openf1CircuitKey": 23,
+        "name": "Circuit Gilles Villeneuve",
+        "shortName": "Montreal",
+        "locality": "Montreal",
+        "country": "Canada",
+        "type": "Permanent",
+        "lat": 45.5,
+        "long": -73.5228,
+        "timeZone": "America/Toronto"
+      },
+      "sessions": [
+        {
+          "openf1SessionKey": 11281,
+          "name": "Practice 1",
+          "type": "PRACTICE",
+          "start": "2026-05-22T16:30:00.000Z",
+          "end": "2026-05-22T17:30:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11282,
+          "name": "Sprint Qualifying",
+          "type": "SPRINT_QUALIFYING",
+          "start": "2026-05-22T20:30:00.000Z",
+          "end": "2026-05-22T21:14:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11286,
+          "name": "Sprint",
+          "type": "SPRINT",
+          "start": "2026-05-23T16:00:00.000Z",
+          "end": "2026-05-23T17:00:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11287,
+          "name": "Qualifying",
+          "type": "QUALIFYING",
+          "start": "2026-05-23T20:00:00.000Z",
+          "end": "2026-05-23T21:00:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11291,
+          "name": "Race",
+          "type": "RACE",
+          "start": "2026-05-24T20:00:00.000Z",
+          "end": "2026-05-24T22:00:00.000Z",
+          "cancelled": false
+        }
+      ]
+    },
+    {
+      "id": "2026-monaco-grand-prix",
+      "season": 2026,
+      "round": 6,
+      "openf1MeetingKey": 1286,
+      "name": "Monaco Grand Prix",
+      "officialName": "FORMULA 1 LOUIS VUITTON GRAND PRIX DE MONACO 2026",
+      "jolpicaRaceName": "Monaco Grand Prix",
+      "status": "scheduled",
+      "format": "standard",
+      "startDate": "2026-06-05",
+      "endDate": "2026-06-07",
+      "gmtOffset": "02:00:00",
+      "circuit": {
+        "id": "monaco",
+        "openf1CircuitKey": 22,
+        "name": "Circuit de Monaco",
+        "shortName": "Monte Carlo",
+        "locality": "Monte Carlo",
+        "country": "Monaco",
+        "type": "Temporary - Street",
+        "lat": 43.7347,
+        "long": 7.42056,
+        "timeZone": "Europe/Monaco"
+      },
+      "sessions": [
+        {
+          "openf1SessionKey": 11292,
+          "name": "Practice 1",
+          "type": "PRACTICE",
+          "start": "2026-06-05T11:30:00.000Z",
+          "end": "2026-06-05T12:30:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11293,
+          "name": "Practice 2",
+          "type": "PRACTICE",
+          "start": "2026-06-05T15:00:00.000Z",
+          "end": "2026-06-05T16:00:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11294,
+          "name": "Practice 3",
+          "type": "PRACTICE",
+          "start": "2026-06-06T10:30:00.000Z",
+          "end": "2026-06-06T11:30:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11295,
+          "name": "Qualifying",
+          "type": "QUALIFYING",
+          "start": "2026-06-06T14:00:00.000Z",
+          "end": "2026-06-06T15:00:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11299,
+          "name": "Race",
+          "type": "RACE",
+          "start": "2026-06-07T13:00:00.000Z",
+          "end": "2026-06-07T15:00:00.000Z",
+          "cancelled": false
+        }
+      ]
+    },
+    {
+      "id": "2026-barcelona-grand-prix",
+      "season": 2026,
+      "round": 7,
+      "openf1MeetingKey": 1287,
+      "name": "Barcelona Grand Prix",
+      "officialName": "FORMULA 1 MSC CRUISES GRAN PREMIO DE BARCELONA-CATALUNYA 2026",
+      "jolpicaRaceName": "Barcelona Grand Prix",
+      "status": "scheduled",
+      "format": "standard",
+      "startDate": "2026-06-12",
+      "endDate": "2026-06-14",
+      "gmtOffset": "02:00:00",
+      "circuit": {
+        "id": "catalunya",
+        "openf1CircuitKey": 15,
+        "name": "Circuit de Barcelona-Catalunya",
+        "shortName": "Catalunya",
+        "locality": "Barcelona",
+        "country": "Spain",
+        "type": "Permanent",
+        "lat": 41.57,
+        "long": 2.26111,
+        "timeZone": "Europe/Madrid"
+      },
+      "sessions": [
+        {
+          "openf1SessionKey": 11300,
+          "name": "Practice 1",
+          "type": "PRACTICE",
+          "start": "2026-06-12T11:30:00.000Z",
+          "end": "2026-06-12T12:30:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11301,
+          "name": "Practice 2",
+          "type": "PRACTICE",
+          "start": "2026-06-12T15:00:00.000Z",
+          "end": "2026-06-12T16:00:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11302,
+          "name": "Practice 3",
+          "type": "PRACTICE",
+          "start": "2026-06-13T10:30:00.000Z",
+          "end": "2026-06-13T11:30:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11303,
+          "name": "Qualifying",
+          "type": "QUALIFYING",
+          "start": "2026-06-13T14:00:00.000Z",
+          "end": "2026-06-13T15:00:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11307,
+          "name": "Race",
+          "type": "RACE",
+          "start": "2026-06-14T13:00:00.000Z",
+          "end": "2026-06-14T15:00:00.000Z",
+          "cancelled": false
+        }
+      ]
+    },
+    {
+      "id": "2026-austrian-grand-prix",
+      "season": 2026,
+      "round": 8,
+      "openf1MeetingKey": 1288,
+      "name": "Austrian Grand Prix",
+      "officialName": "FORMULA 1 LENOVO AUSTRIAN GRAND PRIX 2026",
+      "jolpicaRaceName": "Austrian Grand Prix",
+      "status": "scheduled",
+      "format": "standard",
+      "startDate": "2026-06-26",
+      "endDate": "2026-06-28",
+      "gmtOffset": "02:00:00",
+      "circuit": {
+        "id": "red_bull_ring",
+        "openf1CircuitKey": 19,
+        "name": "Red Bull Ring",
+        "shortName": "Spielberg",
+        "locality": "Spielberg",
+        "country": "Austria",
+        "type": "Permanent",
+        "lat": 47.2197,
+        "long": 14.7647,
+        "timeZone": "Europe/Vienna"
+      },
+      "sessions": [
+        {
+          "openf1SessionKey": 11308,
+          "name": "Practice 1",
+          "type": "PRACTICE",
+          "start": "2026-06-26T11:30:00.000Z",
+          "end": "2026-06-26T12:30:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11309,
+          "name": "Practice 2",
+          "type": "PRACTICE",
+          "start": "2026-06-26T15:00:00.000Z",
+          "end": "2026-06-26T16:00:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11310,
+          "name": "Practice 3",
+          "type": "PRACTICE",
+          "start": "2026-06-27T10:30:00.000Z",
+          "end": "2026-06-27T11:30:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11311,
+          "name": "Qualifying",
+          "type": "QUALIFYING",
+          "start": "2026-06-27T14:00:00.000Z",
+          "end": "2026-06-27T15:00:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11315,
+          "name": "Race",
+          "type": "RACE",
+          "start": "2026-06-28T13:00:00.000Z",
+          "end": "2026-06-28T15:00:00.000Z",
+          "cancelled": false
+        }
+      ]
+    },
+    {
+      "id": "2026-british-grand-prix",
+      "season": 2026,
+      "round": 9,
+      "openf1MeetingKey": 1289,
+      "name": "British Grand Prix",
+      "officialName": "FORMULA 1 PIRELLI BRITISH GRAND PRIX 2026",
+      "jolpicaRaceName": "British Grand Prix",
+      "status": "scheduled",
+      "format": "sprint",
+      "startDate": "2026-07-03",
+      "endDate": "2026-07-05",
+      "gmtOffset": "01:00:00",
+      "circuit": {
+        "id": "silverstone",
+        "openf1CircuitKey": 2,
+        "name": "Silverstone Circuit",
+        "shortName": "Silverstone",
+        "locality": "Silverstone",
+        "country": "UK",
+        "type": "Permanent",
+        "lat": 52.0786,
+        "long": -1.01694,
+        "timeZone": "Europe/London"
+      },
+      "sessions": [
+        {
+          "openf1SessionKey": 11316,
+          "name": "Practice 1",
+          "type": "PRACTICE",
+          "start": "2026-07-03T11:30:00.000Z",
+          "end": "2026-07-03T12:30:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11317,
+          "name": "Sprint Qualifying",
+          "type": "SPRINT_QUALIFYING",
+          "start": "2026-07-03T15:30:00.000Z",
+          "end": "2026-07-03T16:14:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11321,
+          "name": "Sprint",
+          "type": "SPRINT",
+          "start": "2026-07-04T11:00:00.000Z",
+          "end": "2026-07-04T12:00:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11322,
+          "name": "Qualifying",
+          "type": "QUALIFYING",
+          "start": "2026-07-04T15:00:00.000Z",
+          "end": "2026-07-04T16:00:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11326,
+          "name": "Race",
+          "type": "RACE",
+          "start": "2026-07-05T14:00:00.000Z",
+          "end": "2026-07-05T16:00:00.000Z",
+          "cancelled": false
+        }
+      ]
+    },
+    {
+      "id": "2026-belgian-grand-prix",
+      "season": 2026,
+      "round": 10,
+      "openf1MeetingKey": 1290,
+      "name": "Belgian Grand Prix",
+      "officialName": "FORMULA 1 MOËT & CHANDON BELGIAN GRAND PRIX 2026",
+      "jolpicaRaceName": "Belgian Grand Prix",
+      "status": "scheduled",
+      "format": "standard",
+      "startDate": "2026-07-17",
+      "endDate": "2026-07-19",
+      "gmtOffset": "02:00:00",
+      "circuit": {
+        "id": "spa",
+        "openf1CircuitKey": 7,
+        "name": "Circuit de Spa-Francorchamps",
+        "shortName": "Spa-Francorchamps",
+        "locality": "Spa",
+        "country": "Belgium",
+        "type": "Temporary - Road",
+        "lat": 50.4372,
+        "long": 5.97139,
+        "timeZone": "Europe/Brussels"
+      },
+      "sessions": [
+        {
+          "openf1SessionKey": 11327,
+          "name": "Practice 1",
+          "type": "PRACTICE",
+          "start": "2026-07-17T11:30:00.000Z",
+          "end": "2026-07-17T12:30:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11328,
+          "name": "Practice 2",
+          "type": "PRACTICE",
+          "start": "2026-07-17T15:00:00.000Z",
+          "end": "2026-07-17T16:00:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11329,
+          "name": "Practice 3",
+          "type": "PRACTICE",
+          "start": "2026-07-18T10:30:00.000Z",
+          "end": "2026-07-18T11:30:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11330,
+          "name": "Qualifying",
+          "type": "QUALIFYING",
+          "start": "2026-07-18T14:00:00.000Z",
+          "end": "2026-07-18T15:00:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11334,
+          "name": "Race",
+          "type": "RACE",
+          "start": "2026-07-19T13:00:00.000Z",
+          "end": "2026-07-19T15:00:00.000Z",
+          "cancelled": false
+        }
+      ]
+    },
+    {
+      "id": "2026-hungarian-grand-prix",
+      "season": 2026,
+      "round": 11,
+      "openf1MeetingKey": 1291,
+      "name": "Hungarian Grand Prix",
+      "officialName": "FORMULA 1 AWS HUNGARIAN GRAND PRIX 2026",
+      "jolpicaRaceName": "Hungarian Grand Prix",
+      "status": "scheduled",
+      "format": "standard",
+      "startDate": "2026-07-24",
+      "endDate": "2026-07-26",
+      "gmtOffset": "02:00:00",
+      "circuit": {
+        "id": "hungaroring",
+        "openf1CircuitKey": 4,
+        "name": "Hungaroring",
+        "shortName": "Hungaroring",
+        "locality": "Budapest",
+        "country": "Hungary",
+        "type": "Permanent",
+        "lat": 47.5789,
+        "long": 19.2486,
+        "timeZone": "Europe/Budapest"
+      },
+      "sessions": [
+        {
+          "openf1SessionKey": 11335,
+          "name": "Practice 1",
+          "type": "PRACTICE",
+          "start": "2026-07-24T11:30:00.000Z",
+          "end": "2026-07-24T12:30:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11336,
+          "name": "Practice 2",
+          "type": "PRACTICE",
+          "start": "2026-07-24T15:00:00.000Z",
+          "end": "2026-07-24T16:00:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11337,
+          "name": "Practice 3",
+          "type": "PRACTICE",
+          "start": "2026-07-25T10:30:00.000Z",
+          "end": "2026-07-25T11:30:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11338,
+          "name": "Qualifying",
+          "type": "QUALIFYING",
+          "start": "2026-07-25T14:00:00.000Z",
+          "end": "2026-07-25T15:00:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11342,
+          "name": "Race",
+          "type": "RACE",
+          "start": "2026-07-26T13:00:00.000Z",
+          "end": "2026-07-26T15:00:00.000Z",
+          "cancelled": false
+        }
+      ]
+    },
+    {
+      "id": "2026-dutch-grand-prix",
+      "season": 2026,
+      "round": 12,
+      "openf1MeetingKey": 1292,
+      "name": "Dutch Grand Prix",
+      "officialName": "FORMULA 1 HEINEKEN DUTCH GRAND PRIX 2026",
+      "jolpicaRaceName": "Dutch Grand Prix",
+      "status": "scheduled",
+      "format": "sprint",
+      "startDate": "2026-08-21",
+      "endDate": "2026-08-23",
+      "gmtOffset": "02:00:00",
+      "circuit": {
+        "id": "zandvoort",
+        "openf1CircuitKey": 55,
+        "name": "Circuit Park Zandvoort",
+        "shortName": "Zandvoort",
+        "locality": "Zandvoort",
+        "country": "Netherlands",
+        "type": "Permanent",
+        "lat": 52.3888,
+        "long": 4.54092,
+        "timeZone": "Europe/Amsterdam"
+      },
+      "sessions": [
+        {
+          "openf1SessionKey": 11343,
+          "name": "Practice 1",
+          "type": "PRACTICE",
+          "start": "2026-08-21T10:30:00.000Z",
+          "end": "2026-08-21T11:30:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11344,
+          "name": "Sprint Qualifying",
+          "type": "SPRINT_QUALIFYING",
+          "start": "2026-08-21T14:30:00.000Z",
+          "end": "2026-08-21T15:14:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11348,
+          "name": "Sprint",
+          "type": "SPRINT",
+          "start": "2026-08-22T10:00:00.000Z",
+          "end": "2026-08-22T11:00:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11349,
+          "name": "Qualifying",
+          "type": "QUALIFYING",
+          "start": "2026-08-22T14:00:00.000Z",
+          "end": "2026-08-22T15:00:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11353,
+          "name": "Race",
+          "type": "RACE",
+          "start": "2026-08-23T13:00:00.000Z",
+          "end": "2026-08-23T15:00:00.000Z",
+          "cancelled": false
+        }
+      ]
+    },
+    {
+      "id": "2026-italian-grand-prix",
+      "season": 2026,
+      "round": 13,
+      "openf1MeetingKey": 1293,
+      "name": "Italian Grand Prix",
+      "officialName": "FORMULA 1 PIRELLI GRAN PREMIO D’ITALIA 2026",
+      "jolpicaRaceName": "Italian Grand Prix",
+      "status": "scheduled",
+      "format": "standard",
+      "startDate": "2026-09-04",
+      "endDate": "2026-09-06",
+      "gmtOffset": "02:00:00",
+      "circuit": {
+        "id": "monza",
+        "openf1CircuitKey": 39,
+        "name": "Autodromo Nazionale di Monza",
+        "shortName": "Monza",
+        "locality": "Monza",
+        "country": "Italy",
+        "type": "Permanent",
+        "lat": 45.6156,
+        "long": 9.28111,
+        "timeZone": "Europe/Rome"
+      },
+      "sessions": [
+        {
+          "openf1SessionKey": 11354,
+          "name": "Practice 1",
+          "type": "PRACTICE",
+          "start": "2026-09-04T10:30:00.000Z",
+          "end": "2026-09-04T11:30:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11355,
+          "name": "Practice 2",
+          "type": "PRACTICE",
+          "start": "2026-09-04T14:00:00.000Z",
+          "end": "2026-09-04T15:00:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11356,
+          "name": "Practice 3",
+          "type": "PRACTICE",
+          "start": "2026-09-05T10:30:00.000Z",
+          "end": "2026-09-05T11:30:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11357,
+          "name": "Qualifying",
+          "type": "QUALIFYING",
+          "start": "2026-09-05T14:00:00.000Z",
+          "end": "2026-09-05T15:00:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11361,
+          "name": "Race",
+          "type": "RACE",
+          "start": "2026-09-06T13:00:00.000Z",
+          "end": "2026-09-06T15:00:00.000Z",
+          "cancelled": false
+        }
+      ]
+    },
+    {
+      "id": "2026-spanish-grand-prix",
+      "season": 2026,
+      "round": 14,
+      "openf1MeetingKey": 1294,
+      "name": "Spanish Grand Prix",
+      "officialName": "FORMULA 1 TAG HEUER GRAN PREMIO DE ESPAÑA 2026",
+      "jolpicaRaceName": "Spanish Grand Prix",
+      "status": "scheduled",
+      "format": "standard",
+      "startDate": "2026-09-11",
+      "endDate": "2026-09-13",
+      "gmtOffset": "02:00:00",
+      "circuit": {
+        "id": "madring",
+        "openf1CircuitKey": 153,
+        "name": "Madring",
+        "shortName": "Madring",
+        "locality": "Madrid",
+        "country": "Spain",
+        "type": "Temporary - Street",
+        "lat": 40.46528,
+        "long": -3.61528,
+        "timeZone": "Europe/Madrid"
+      },
+      "sessions": [
+        {
+          "openf1SessionKey": 11362,
+          "name": "Practice 1",
+          "type": "PRACTICE",
+          "start": "2026-09-11T11:30:00.000Z",
+          "end": "2026-09-11T12:30:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11363,
+          "name": "Practice 2",
+          "type": "PRACTICE",
+          "start": "2026-09-11T15:00:00.000Z",
+          "end": "2026-09-11T16:00:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11364,
+          "name": "Practice 3",
+          "type": "PRACTICE",
+          "start": "2026-09-12T10:30:00.000Z",
+          "end": "2026-09-12T11:30:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11365,
+          "name": "Qualifying",
+          "type": "QUALIFYING",
+          "start": "2026-09-12T14:00:00.000Z",
+          "end": "2026-09-12T15:00:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11369,
+          "name": "Race",
+          "type": "RACE",
+          "start": "2026-09-13T13:00:00.000Z",
+          "end": "2026-09-13T15:00:00.000Z",
+          "cancelled": false
+        }
+      ]
+    },
+    {
+      "id": "2026-azerbaijan-grand-prix",
+      "season": 2026,
+      "round": 15,
+      "openf1MeetingKey": 1295,
+      "name": "Azerbaijan Grand Prix",
+      "officialName": "FORMULA 1 QATAR AIRWAYS AZERBAIJAN GRAND PRIX 2026",
+      "jolpicaRaceName": "Azerbaijan Grand Prix",
+      "status": "scheduled",
+      "format": "standard",
+      "startDate": "2026-09-24",
+      "endDate": "2026-09-26",
+      "gmtOffset": "04:00:00",
+      "circuit": {
+        "id": "baku",
+        "openf1CircuitKey": 144,
+        "name": "Baku City Circuit",
+        "shortName": "Baku",
+        "locality": "Baku",
+        "country": "Azerbaijan",
+        "type": "Temporary - Street",
+        "lat": 40.3725,
+        "long": 49.8533,
+        "timeZone": "Asia/Baku"
+      },
+      "sessions": [
+        {
+          "openf1SessionKey": 11370,
+          "name": "Practice 1",
+          "type": "PRACTICE",
+          "start": "2026-09-24T08:30:00.000Z",
+          "end": "2026-09-24T09:30:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11371,
+          "name": "Practice 2",
+          "type": "PRACTICE",
+          "start": "2026-09-24T12:00:00.000Z",
+          "end": "2026-09-24T13:00:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11372,
+          "name": "Practice 3",
+          "type": "PRACTICE",
+          "start": "2026-09-25T08:30:00.000Z",
+          "end": "2026-09-25T09:30:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11373,
+          "name": "Qualifying",
+          "type": "QUALIFYING",
+          "start": "2026-09-25T12:00:00.000Z",
+          "end": "2026-09-25T13:00:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11377,
+          "name": "Race",
+          "type": "RACE",
+          "start": "2026-09-26T11:00:00.000Z",
+          "end": "2026-09-26T13:00:00.000Z",
+          "cancelled": false
+        }
+      ]
+    },
+    {
+      "id": "2026-bahrain-grand-prix-in-malaysia",
+      "season": 2026,
+      "round": 16,
+      "openf1MeetingKey": 1308,
+      "name": "Bahrain Grand Prix in Malaysia",
+      "officialName": "FORMULA 1 GULF AIR BAHRAIN GRAND PRIX IN MALAYSIA 2026",
+      "jolpicaRaceName": "Bahrain Grand Prix in Malaysia",
+      "status": "scheduled",
+      "format": "standard",
+      "startDate": "2026-10-02",
+      "endDate": "2026-10-04",
+      "gmtOffset": "08:00:00",
+      "circuit": {
+        "id": "sepang",
+        "openf1CircuitKey": 12,
+        "name": "Sepang International Circuit",
+        "shortName": "Kuala Lumpur",
+        "locality": "Kuala Lumpur",
+        "country": "Malaysia",
+        "type": "Permanent",
+        "lat": 2.76083,
+        "long": 101.738,
+        "timeZone": "Asia/Kuala_Lumpur"
+      },
+      "sessions": [
+        {
+          "openf1SessionKey": 11727,
+          "name": "Practice 1",
+          "type": "PRACTICE",
+          "start": "2026-10-02T04:30:00.000Z",
+          "end": "2026-10-02T05:30:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11728,
+          "name": "Practice 2",
+          "type": "PRACTICE",
+          "start": "2026-10-02T08:00:00.000Z",
+          "end": "2026-10-02T09:00:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11729,
+          "name": "Practice 3",
+          "type": "PRACTICE",
+          "start": "2026-10-03T04:30:00.000Z",
+          "end": "2026-10-03T05:30:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11730,
+          "name": "Qualifying",
+          "type": "QUALIFYING",
+          "start": "2026-10-03T08:00:00.000Z",
+          "end": "2026-10-03T09:00:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11731,
+          "name": "Race",
+          "type": "RACE",
+          "start": "2026-10-04T07:00:00.000Z",
+          "end": "2026-10-04T09:00:00.000Z",
+          "cancelled": false
+        }
+      ]
+    },
+    {
+      "id": "2026-singapore-grand-prix",
+      "season": 2026,
+      "round": 17,
+      "openf1MeetingKey": 1296,
+      "name": "Singapore Grand Prix",
+      "officialName": "FORMULA 1 SINGAPORE AIRLINES SINGAPORE GRAND PRIX 2026",
+      "jolpicaRaceName": "Singapore Grand Prix",
+      "status": "scheduled",
+      "format": "sprint",
+      "startDate": "2026-10-09",
+      "endDate": "2026-10-11",
+      "gmtOffset": "08:00:00",
+      "circuit": {
+        "id": "marina_bay",
+        "openf1CircuitKey": 61,
+        "name": "Marina Bay Street Circuit",
+        "shortName": "Singapore",
+        "locality": "Marina Bay",
+        "country": "Singapore",
+        "type": "Temporary - Street",
+        "lat": 1.2914,
+        "long": 103.864,
+        "timeZone": "Asia/Singapore"
+      },
+      "sessions": [
+        {
+          "openf1SessionKey": 11378,
+          "name": "Practice 1",
+          "type": "PRACTICE",
+          "start": "2026-10-09T08:30:00.000Z",
+          "end": "2026-10-09T09:30:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11379,
+          "name": "Sprint Qualifying",
+          "type": "SPRINT_QUALIFYING",
+          "start": "2026-10-09T12:30:00.000Z",
+          "end": "2026-10-09T13:14:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11383,
+          "name": "Sprint",
+          "type": "SPRINT",
+          "start": "2026-10-10T09:00:00.000Z",
+          "end": "2026-10-10T09:30:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11384,
+          "name": "Qualifying",
+          "type": "QUALIFYING",
+          "start": "2026-10-10T13:00:00.000Z",
+          "end": "2026-10-10T14:00:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11388,
+          "name": "Race",
+          "type": "RACE",
+          "start": "2026-10-11T12:00:00.000Z",
+          "end": "2026-10-11T14:00:00.000Z",
+          "cancelled": false
+        }
+      ]
+    },
+    {
+      "id": "2026-united-states-grand-prix",
+      "season": 2026,
+      "round": 18,
+      "openf1MeetingKey": 1297,
+      "name": "United States Grand Prix",
+      "officialName": "FORMULA 1 MSC CRUISES UNITED STATES GRAND PRIX 2026",
+      "jolpicaRaceName": "United States Grand Prix",
+      "status": "scheduled",
+      "format": "standard",
+      "startDate": "2026-10-23",
+      "endDate": "2026-10-25",
+      "gmtOffset": "-05:00:00",
+      "circuit": {
+        "id": "americas",
+        "openf1CircuitKey": 9,
+        "name": "Circuit of the Americas",
+        "shortName": "Austin",
+        "locality": "Austin",
+        "country": "USA",
+        "type": "Permanent",
+        "lat": 30.1328,
+        "long": -97.6411,
+        "timeZone": "America/Chicago"
+      },
+      "sessions": [
+        {
+          "openf1SessionKey": 11389,
+          "name": "Practice 1",
+          "type": "PRACTICE",
+          "start": "2026-10-23T17:30:00.000Z",
+          "end": "2026-10-23T18:30:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11390,
+          "name": "Practice 2",
+          "type": "PRACTICE",
+          "start": "2026-10-23T21:00:00.000Z",
+          "end": "2026-10-23T22:00:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11391,
+          "name": "Practice 3",
+          "type": "PRACTICE",
+          "start": "2026-10-24T17:30:00.000Z",
+          "end": "2026-10-24T18:30:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11392,
+          "name": "Qualifying",
+          "type": "QUALIFYING",
+          "start": "2026-10-24T21:00:00.000Z",
+          "end": "2026-10-24T22:00:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11396,
+          "name": "Race",
+          "type": "RACE",
+          "start": "2026-10-25T20:00:00.000Z",
+          "end": "2026-10-25T22:00:00.000Z",
+          "cancelled": false
+        }
+      ]
+    },
+    {
+      "id": "2026-mexico-city-grand-prix",
+      "season": 2026,
+      "round": 19,
+      "openf1MeetingKey": 1298,
+      "name": "Mexico City Grand Prix",
+      "officialName": "FORMULA 1 GRAN PREMIO DE LA CIUDAD DE MÉXICO 2026",
+      "jolpicaRaceName": "Mexico City Grand Prix",
+      "status": "scheduled",
+      "format": "standard",
+      "startDate": "2026-10-30",
+      "endDate": "2026-11-01",
+      "gmtOffset": "-06:00:00",
+      "circuit": {
+        "id": "rodriguez",
+        "openf1CircuitKey": 65,
+        "name": "Autódromo Hermanos Rodríguez",
+        "shortName": "Mexico City",
+        "locality": "Mexico City",
+        "country": "Mexico",
+        "type": "Permanent",
+        "lat": 19.4042,
+        "long": -99.0907,
+        "timeZone": "America/Mexico_City"
+      },
+      "sessions": [
+        {
+          "openf1SessionKey": 11397,
+          "name": "Practice 1",
+          "type": "PRACTICE",
+          "start": "2026-10-30T18:30:00.000Z",
+          "end": "2026-10-30T19:30:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11398,
+          "name": "Practice 2",
+          "type": "PRACTICE",
+          "start": "2026-10-30T22:00:00.000Z",
+          "end": "2026-10-30T23:00:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11399,
+          "name": "Practice 3",
+          "type": "PRACTICE",
+          "start": "2026-10-31T17:30:00.000Z",
+          "end": "2026-10-31T18:30:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11400,
+          "name": "Qualifying",
+          "type": "QUALIFYING",
+          "start": "2026-10-31T21:00:00.000Z",
+          "end": "2026-10-31T22:00:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11404,
+          "name": "Race",
+          "type": "RACE",
+          "start": "2026-11-01T20:00:00.000Z",
+          "end": "2026-11-01T22:00:00.000Z",
+          "cancelled": false
+        }
+      ]
+    },
+    {
+      "id": "2026-sao-paulo-grand-prix",
+      "season": 2026,
+      "round": 20,
+      "openf1MeetingKey": 1299,
+      "name": "São Paulo Grand Prix",
+      "officialName": "FORMULA 1 MSC CRUISES GRANDE PRÊMIO DE SÃO PAULO 2026",
+      "jolpicaRaceName": "Brazilian Grand Prix",
+      "status": "scheduled",
+      "format": "standard",
+      "startDate": "2026-11-06",
+      "endDate": "2026-11-08",
+      "gmtOffset": "-03:00:00",
+      "circuit": {
+        "id": "interlagos",
+        "openf1CircuitKey": 14,
+        "name": "Autódromo José Carlos Pace",
+        "shortName": "Interlagos",
+        "locality": "São Paulo",
+        "country": "Brazil",
+        "type": "Permanent",
+        "lat": -23.7036,
+        "long": -46.6997,
+        "timeZone": "America/Sao_Paulo"
+      },
+      "sessions": [
+        {
+          "openf1SessionKey": 11405,
+          "name": "Practice 1",
+          "type": "PRACTICE",
+          "start": "2026-11-06T15:30:00.000Z",
+          "end": "2026-11-06T16:30:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11406,
+          "name": "Practice 2",
+          "type": "PRACTICE",
+          "start": "2026-11-06T19:00:00.000Z",
+          "end": "2026-11-06T20:00:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11407,
+          "name": "Practice 3",
+          "type": "PRACTICE",
+          "start": "2026-11-07T14:30:00.000Z",
+          "end": "2026-11-07T15:30:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11408,
+          "name": "Qualifying",
+          "type": "QUALIFYING",
+          "start": "2026-11-07T18:00:00.000Z",
+          "end": "2026-11-07T19:00:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11412,
+          "name": "Race",
+          "type": "RACE",
+          "start": "2026-11-08T17:00:00.000Z",
+          "end": "2026-11-08T19:00:00.000Z",
+          "cancelled": false
+        }
+      ]
+    },
+    {
+      "id": "2026-las-vegas-grand-prix",
+      "season": 2026,
+      "round": 21,
+      "openf1MeetingKey": 1300,
+      "name": "Las Vegas Grand Prix",
+      "officialName": "FORMULA 1 HEINEKEN LAS VEGAS GRAND PRIX 2026",
+      "jolpicaRaceName": "Las Vegas Grand Prix",
+      "status": "scheduled",
+      "format": "standard",
+      "startDate": "2026-11-20",
+      "endDate": "2026-11-22",
+      "gmtOffset": "-08:00:00",
+      "circuit": {
+        "id": "vegas",
+        "openf1CircuitKey": 152,
+        "name": "Las Vegas Strip Street Circuit",
+        "shortName": "Las Vegas",
+        "locality": "Las Vegas",
+        "country": "USA",
+        "type": "Temporary - Street",
+        "lat": 36.1147,
+        "long": -115.173,
+        "timeZone": "America/Los_Angeles"
+      },
+      "sessions": [
+        {
+          "openf1SessionKey": 11413,
+          "name": "Practice 1",
+          "type": "PRACTICE",
+          "start": "2026-11-20T00:30:00.000Z",
+          "end": "2026-11-20T01:30:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11414,
+          "name": "Practice 2",
+          "type": "PRACTICE",
+          "start": "2026-11-20T04:00:00.000Z",
+          "end": "2026-11-20T05:00:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11415,
+          "name": "Practice 3",
+          "type": "PRACTICE",
+          "start": "2026-11-21T00:30:00.000Z",
+          "end": "2026-11-21T01:30:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11416,
+          "name": "Qualifying",
+          "type": "QUALIFYING",
+          "start": "2026-11-21T04:00:00.000Z",
+          "end": "2026-11-21T05:00:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11420,
+          "name": "Race",
+          "type": "RACE",
+          "start": "2026-11-22T04:00:00.000Z",
+          "end": "2026-11-22T06:00:00.000Z",
+          "cancelled": false
+        }
+      ]
+    },
+    {
+      "id": "2026-qatar-grand-prix",
+      "season": 2026,
+      "round": 22,
+      "openf1MeetingKey": 1301,
+      "name": "Qatar Grand Prix",
+      "officialName": "FORMULA 1 QATAR AIRWAYS QATAR GRAND PRIX 2026",
+      "jolpicaRaceName": "Qatar Grand Prix",
+      "status": "scheduled",
+      "format": "standard",
+      "startDate": "2026-11-27",
+      "endDate": "2026-11-29",
+      "gmtOffset": "03:00:00",
+      "circuit": {
+        "id": "losail",
+        "openf1CircuitKey": 150,
+        "name": "Lusail International Circuit",
+        "shortName": "Lusail",
+        "locality": "Lusail",
+        "country": "Qatar",
+        "type": "Permanent",
+        "lat": 25.49,
+        "long": 51.4542,
+        "timeZone": "Asia/Qatar"
+      },
+      "sessions": [
+        {
+          "openf1SessionKey": 11421,
+          "name": "Practice 1",
+          "type": "PRACTICE",
+          "start": "2026-11-27T13:30:00.000Z",
+          "end": "2026-11-27T14:30:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11422,
+          "name": "Practice 2",
+          "type": "PRACTICE",
+          "start": "2026-11-27T17:00:00.000Z",
+          "end": "2026-11-27T18:00:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11423,
+          "name": "Practice 3",
+          "type": "PRACTICE",
+          "start": "2026-11-28T14:30:00.000Z",
+          "end": "2026-11-28T15:30:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11424,
+          "name": "Qualifying",
+          "type": "QUALIFYING",
+          "start": "2026-11-28T18:00:00.000Z",
+          "end": "2026-11-28T19:00:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11428,
+          "name": "Race",
+          "type": "RACE",
+          "start": "2026-11-29T16:00:00.000Z",
+          "end": "2026-11-29T18:00:00.000Z",
+          "cancelled": false
+        }
+      ]
+    },
+    {
+      "id": "2026-abu-dhabi-grand-prix",
+      "season": 2026,
+      "round": 23,
+      "openf1MeetingKey": 1302,
+      "name": "Abu Dhabi Grand Prix",
+      "officialName": "FORMULA 1 ETIHAD AIRWAYS ABU DHABI GRAND PRIX 2026",
+      "jolpicaRaceName": "Abu Dhabi Grand Prix",
+      "status": "scheduled",
+      "format": "standard",
+      "startDate": "2026-12-04",
+      "endDate": "2026-12-06",
+      "gmtOffset": "04:00:00",
+      "circuit": {
+        "id": "yas_marina",
+        "openf1CircuitKey": 70,
+        "name": "Yas Marina Circuit",
+        "shortName": "Yas Marina Circuit",
+        "locality": "Abu Dhabi",
+        "country": "UAE",
+        "type": "Permanent",
+        "lat": 24.4672,
+        "long": 54.6031,
+        "timeZone": "Asia/Dubai"
+      },
+      "sessions": [
+        {
+          "openf1SessionKey": 11429,
+          "name": "Practice 1",
+          "type": "PRACTICE",
+          "start": "2026-12-04T09:30:00.000Z",
+          "end": "2026-12-04T10:30:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11430,
+          "name": "Practice 2",
+          "type": "PRACTICE",
+          "start": "2026-12-04T13:00:00.000Z",
+          "end": "2026-12-04T14:00:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11431,
+          "name": "Practice 3",
+          "type": "PRACTICE",
+          "start": "2026-12-05T10:30:00.000Z",
+          "end": "2026-12-05T11:30:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11432,
+          "name": "Qualifying",
+          "type": "QUALIFYING",
+          "start": "2026-12-05T14:00:00.000Z",
+          "end": "2026-12-05T15:00:00.000Z",
+          "cancelled": false
+        },
+        {
+          "openf1SessionKey": 11436,
+          "name": "Race",
+          "type": "RACE",
+          "start": "2026-12-06T13:00:00.000Z",
+          "end": "2026-12-06T15:00:00.000Z",
+          "cancelled": false
+        }
+      ]
+    }
+  ]
+}
