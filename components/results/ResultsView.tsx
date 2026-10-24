@@ -11,7 +11,7 @@ import type { ResultRow } from "@/lib/results/types";
 import { formatDelta, formatLapTime } from "@/lib/timing/formatters";
 import { DriverCell, PageTitle } from "@/components/ui/DriverCell";
 import { ProviderErrorMessage, StateMessage } from "@/components/ui/primitives";
-import { ProvenanceNote } from "@/components/ui/Provenance";
+import { Segmented } from "@/components/ui/Popover";
 
 const STATUS_CLASS: Record<ResultRow["classification"], string> = {
   CLASSIFIED: "text-fg-2",
@@ -206,40 +206,46 @@ export function ResultsView() {
 
   return (
     <div>
-      <PageTitle title="Results">
-        <div className="flex flex-wrap items-center gap-2">
-          <label className="sr-only" htmlFor="res-round">
-            Round
-          </label>
-          <select id="res-round" className="control w-[260px]" value={round} onChange={(e) => setRound(Number(e.target.value))}>
-            {ROUNDS_2026.map((e) => (
-              <option key={e.id} value={e.round ?? 0}>
-                R{e.round} · {e.name}
-                {e.format === "sprint" ? " (Sprint)" : ""}
-                {hydrated && !completedRounds.includes(e) ? " — upcoming" : ""}
-              </option>
-            ))}
-          </select>
-          <div className="flex flex-wrap gap-1" role="group" aria-label="Session">
-            {sessions.map((s) => (
-              <button key={s.openf1SessionKey} className="btn" aria-pressed={s.openf1SessionKey === sessionKey} onClick={() => setSessionKey(s.openf1SessionKey)} disabled={s.cancelled}>
-                {s.name}
-              </button>
-            ))}
-          </div>
-        </div>
+      <PageTitle
+        title="Results"
+        subtitle={event ? `${event.name} · ${event.circuit.name}` : undefined}
+        provenance={res.provenance}
+        info={
+          <p className="mb-2">
+            Points follow the 2026 tables (Grand Prix 25-18-15-12-10-8-6-4-2-1, Sprint 8 to 1, no fastest-lap point) and are shown exactly as officially published, including any penalties. &ldquo;PL&rdquo; means the car started from the
+            pit lane.
+          </p>
+        }
+      >
+        <label className="sr-only" htmlFor="res-round">
+          Round
+        </label>
+        <select id="res-round" className="control w-[280px]" value={round} onChange={(e) => setRound(Number(e.target.value))}>
+          {ROUNDS_2026.map((e) => (
+            <option key={e.id} value={e.round ?? 0}>
+              Round {e.round} · {e.name}
+              {hydrated && !completedRounds.includes(e) ? " (upcoming)" : ""}
+            </option>
+          ))}
+        </select>
       </PageTitle>
 
-      <section className="panel">
-        <div className="panel-head flex-wrap py-1.5">
-          <span className="panel-title">
-            {event?.name} — {session ? (session.type === "PRACTICE" ? session.name : SESSION_TYPE_LABEL[session.type]) : ""}
-          </span>
-          {res.provenance?.completeness === "provisional" && <span className="rounded-[2px] bg-yellow/15 px-1.5 text-[10.5px] font-bold text-yellow">PROVISIONAL</span>}
-          {res.provenance?.completeness === "complete" && <span className="rounded-[2px] bg-blue/10 px-1.5 text-[10.5px] font-bold text-blue">PUBLISHED CLASSIFICATION</span>}
+      <section className="panel overflow-hidden">
+        <div className="flex flex-wrap items-center gap-2 border-b border-line-soft px-3 py-2.5">
+          <Segmented
+            label="Session"
+            value={String(sessionKey ?? "")}
+            options={sessions.filter((s) => !s.cancelled).map((s) => ({ value: String(s.openf1SessionKey), label: s.type === "RACE" ? "Race" : s.name }))}
+            onChange={(v) => setSessionKey(Number(v))}
+          />
+          {res.provenance?.completeness === "provisional" && (
+            <span className="chip h-6 border-yellow/40 bg-yellow/10 text-[11px] text-yellow" title="Published within the last 24 hours — stewards' decisions can still change it">
+              Provisional
+            </span>
+          )}
           {session && (
-            <Link className="btn ml-auto h-6" href={`/timing?session=${session.openf1SessionKey}`} onClick={() => feed.setSession(session.openf1SessionKey)}>
-              Open in timing
+            <Link className="btn btn-ghost ml-auto" href={`/timing?session=${session.openf1SessionKey}`} onClick={() => feed.setSession(session.openf1SessionKey)}>
+              Open in Live Timing →
             </Link>
           )}
         </div>
@@ -262,12 +268,6 @@ export function ResultsView() {
             )}
           </div>
         )}
-        <div className="border-t border-line px-2.5 py-1.5">
-          <ProvenanceNote provenance={res.provenance} />
-          <p className="mt-1 text-[10.5px] text-fg-3">
-            Points follow the 2026 tables (Grand Prix 25-18-15-12-10-8-6-4-2-1; Sprint 8-7-6-5-4-3-2-1; no fastest-lap point) and are shown as published by the provider. Grid and finish are listed separately; PL = pit-lane start.
-          </p>
-        </div>
       </section>
     </div>
   );

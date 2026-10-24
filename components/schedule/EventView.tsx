@@ -13,7 +13,7 @@ import type { TrackGeometry } from "@/lib/timing/types";
 import { TrackMap } from "@/components/track/TrackMap";
 import { PageTitle } from "@/components/ui/DriverCell";
 import { ProviderErrorMessage, StateMessage } from "@/components/ui/primitives";
-import { ProvenanceNote } from "@/components/ui/Provenance";
+import { SourceInfo } from "@/components/ui/Popover";
 
 export function EventView({ eventId }: { eventId: string }) {
   const event = eventById(eventId)!;
@@ -31,13 +31,20 @@ export function EventView({ eventId }: { eventId: string }) {
       <Link href="/schedule" className="inline-flex w-fit items-center gap-1 text-[12px] text-fg-2 hover:text-fg">
         <ArrowLeft size={13} aria-hidden /> Schedule
       </Link>
-      <PageTitle title={event.name}>
-        <span className="text-[12px] text-fg-2">
-          {event.round ? `Round ${event.round}` : event.format === "testing" ? "Pre-season testing" : "Not a championship round"} · {event.format === "sprint" ? "Sprint weekend" : event.format === "standard" ? "Standard weekend" : "Testing"}
-          {event.status === "cancelled" && <span className="ml-2 font-bold text-red">CANCELLED</span>}
-        </span>
-      </PageTitle>
-      <p className="-mt-2 text-[11.5px] text-fg-3">{event.officialName}</p>
+      <PageTitle
+        title={event.name}
+        subtitle={
+          <>
+            {event.round ? `Round ${event.round}` : event.format === "testing" ? "Pre-season testing" : "Not a championship round"} · {event.format === "sprint" ? "Sprint weekend" : event.format === "standard" ? "Standard weekend" : "Testing"}
+            {event.status === "cancelled" && <span className="ml-2 font-bold text-red">Cancelled</span>}
+          </>
+        }
+        info={
+          <p>
+            {event.officialName}. Session times are stored in UTC and converted using the {event.circuit.timeZone} time zone, so daylight-saving changes are handled. Calendar from OpenF1, cross-checked with Jolpica-F1.
+          </p>
+        }
+      />
 
       <div className="grid gap-3 xl:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
         <section className="panel overflow-x-auto" aria-label="Sessions">
@@ -84,15 +91,14 @@ export function EventView({ eventId }: { eventId: string }) {
               })}
             </tbody>
           </table>
-          <p className="px-3 py-2 text-[11px] text-fg-3">
-            Times are stored in UTC and converted with the IANA zone {event.circuit.timeZone} (daylight saving handled per session date). Source: OpenF1 sessions, cross-checked with Jolpica-F1 rounds.
-          </p>
         </section>
 
         <section className="panel" aria-label="Circuit">
           <div className="panel-head">
             <span className="panel-title">Circuit</span>
-            <span className="text-[12px] text-fg-2">{event.circuit.name}</span>
+            <span className="text-[12.5px] text-fg-2">{event.circuit.name}</span>
+            <span className="ml-auto" />
+            <SourceInfo provenance={outline.provenance}>{outline.data?.geometry && <p className="mb-2">{outline.data.geometry.basis}.</p>}</SourceInfo>
           </div>
           <dl className="grid grid-cols-2 gap-x-4 gap-y-1.5 px-3 py-2 text-[12px] sm:grid-cols-4">
             <div>
@@ -127,9 +133,6 @@ export function EventView({ eventId }: { eventId: string }) {
             ) : (
               <StateMessage kind="empty" title="No outline available" />
             )}
-          </div>
-          <div className="border-t border-line px-2.5 py-1.5">
-            <ProvenanceNote provenance={outline.provenance} />
           </div>
         </section>
       </div>

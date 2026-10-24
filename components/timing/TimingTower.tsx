@@ -42,9 +42,10 @@ interface Props {
   speedUnit: SpeedUnit;
   flash: boolean;
   scope: string;
+  compact: boolean;
 }
 
-export function TimingTower({ snapshot, columns, sort, onSort, selected, onSelect, highlighted, speedUnit, flash, scope }: Props) {
+export function TimingTower({ snapshot, columns, sort, onSort, selected, onSelect, highlighted, speedUnit, flash, scope, compact }: Props) {
   const rows = useMemo(() => sortRows(snapshot.rows, sort.key, sort.dir), [snapshot.rows, sort]);
   const isRace = snapshot.session.type === "RACE" || snapshot.session.type === "SPRINT";
   const columnsKey = columns.map((c) => c.id).join(",");
@@ -74,7 +75,7 @@ export function TimingTower({ snapshot, columns, sort, onSort, selected, onSelec
 
   return (
     <div className="overflow-x-auto">
-      <table className="data-table tnum min-w-max" aria-label={`Timing tower, ordered by ${SORT_LABEL[sort.key]}`}>
+      <table className="data-table tower tnum min-w-max" aria-label={`Timing tower, ordered by ${SORT_LABEL[sort.key]}`}>
         <colgroup>
           {columns.map((c) => (
             <col key={c.id} style={{ width: c.width }} />
@@ -84,7 +85,7 @@ export function TimingTower({ snapshot, columns, sort, onSort, selected, onSelec
           <tr>
             {columns.map((c) => {
               const active = c.sortKey && sort.key === c.sortKey;
-              const sticky = c.id === "pos" ? "sticky left-0 z-[2]" : c.id === "driver" ? "sticky left-[40px] z-[2]" : "";
+              const sticky = c.id === "pos" ? "sticky left-0 z-[2]" : c.id === "driver" ? "sticky left-[46px] z-[2]" : "";
               return (
                 <th
                   key={c.id}
@@ -120,6 +121,7 @@ export function TimingTower({ snapshot, columns, sort, onSort, selected, onSelec
               flash={flash}
               scope={scope}
               isRace={isRace}
+              compact={compact}
               onSelect={onSelect}
               onKeyNav={onKeyNav}
             />

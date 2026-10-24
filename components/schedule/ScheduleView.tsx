@@ -8,6 +8,7 @@ import { useHydrated, useNow } from "@/lib/client/hooks";
 import { resolveTimeZone, useSettings } from "@/lib/client/settings";
 import { formatClock, formatDate, formatDateTime, zoneLabel } from "@/lib/timing/formatters";
 import { PageTitle } from "@/components/ui/DriverCell";
+import { Segmented } from "@/components/ui/Popover";
 
 const STATE_BADGE: Record<ScheduleState, string> = {
   upcoming: "text-fg-2 border-line",
@@ -138,21 +139,37 @@ export function ScheduleView() {
 
   return (
     <div className="flex flex-col gap-3">
-      <PageTitle title="2026 Schedule">
-        <div className="flex gap-1" role="group" aria-label="View">
-          <button className="btn" aria-pressed={view === "list"} onClick={() => setView("list")}>
-            <List size={13} aria-hidden /> List
-          </button>
-          <button className="btn" aria-pressed={view === "calendar"} onClick={() => setView("calendar")}>
-            <CalendarDays size={13} aria-hidden /> Calendar
-          </button>
-        </div>
-        <label className="flex items-center gap-1.5 text-[12px] text-fg-2">
-          <input type="checkbox" checked={showTesting} onChange={(e) => setShowTesting(e.target.checked)} /> Show pre-season testing
+      <PageTitle
+        title="Schedule"
+        subtitle={`2026 season · times shown in ${settings.timeZone === "event" ? "each event's local time" : settings.timeZone === "viewer" ? "your time zone" : settings.timeZone} (change in Settings)`}
+        info={<p>Calendar built from OpenF1 and Jolpica-F1 on {SEASON_2026.generatedAt.slice(0, 10)}. Bahrain and Saudi Arabia were cancelled; the Bahrain Grand Prix moved to Sepang, Malaysia.</p>}
+      >
+        <label className="flex items-center gap-1.5 text-[12.5px] text-fg-2">
+          <input type="checkbox" checked={showTesting} onChange={(e) => setShowTesting(e.target.checked)} /> Testing
         </label>
-        <span className="ml-auto text-[11px] text-fg-3">
-          Times in {settings.timeZone === "event" ? "each event's local time" : settings.timeZone === "viewer" ? "your time zone" : settings.timeZone} · change in Settings. Calendar from OpenF1 + Jolpica-F1, generated {SEASON_2026.generatedAt.slice(0, 10)}.
-        </span>
+        <Segmented
+          label="View"
+          value={view}
+          options={[
+            {
+              value: "list",
+              label: (
+                <span className="inline-flex items-center gap-1.5">
+                  <List size={13} aria-hidden /> List
+                </span>
+              ),
+            },
+            {
+              value: "calendar",
+              label: (
+                <span className="inline-flex items-center gap-1.5">
+                  <CalendarDays size={13} aria-hidden /> Calendar
+                </span>
+              ),
+            },
+          ]}
+          onChange={setView}
+        />
       </PageTitle>
 
       <NextSessionCard />

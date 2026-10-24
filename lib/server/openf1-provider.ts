@@ -32,6 +32,7 @@ import {
   of1Weather,
 } from "@/lib/timing/validation";
 import { OPENF1_PROVIDER, liveCredentialsConfigured, openf1, type Access, type Filter } from "./openf1";
+import { upstreamErrorBody } from "./respond";
 import { UpstreamError } from "./upstream";
 
 /**
@@ -309,16 +310,7 @@ export function toProviderError(err: unknown): { status: number; body: import("@
     const status = err.code === "BAD_REQUEST" ? 400 : err.code === "NOT_FOUND" ? 404 : err.code === "CREDENTIALS_MISSING" ? 503 : 409;
     return { status, body: { error: err.message, code: err.code, mode: err.mode, provider: OPENF1_PROVIDER } };
   }
-  if (err instanceof UpstreamError) {
-    const code = err.status === 429 ? "RATE_LIMITED" : err.status === 401 || err.status === 403 ? "UNAUTHORISED" : "UPSTREAM_ERROR";
-    const detail =
-      code === "UNAUTHORISED"
-        ? "The provider rejected the request. OpenF1 restricts some access (including during live sessions) to authenticated accounts."
-        : code === "RATE_LIMITED"
-          ? "The provider's rate limit was reached. Wait a moment and retry."
-          : err.message;
-    return { status: 502, body: { error: `${err.provider} request failed`, code, mode: "OFFLINE", provider: err.provider, detail } };
-  }
+  if (err instanceof UpstreamError) return { status: 502, body: upstreamErrorBody(err) };
   const message = err instanceof Error ? err.message : String(err);
   return { status: 500, body: { error: "Unexpected server error", code: "UPSTREAM_ERROR", mode: "OFFLINE", provider: OPENF1_PROVIDER, detail: message } };
 }

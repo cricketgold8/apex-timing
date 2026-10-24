@@ -14,7 +14,7 @@ import type { PitStop, Stint } from "@/lib/timing/types";
 import { headToHead } from "@/components/drivers/DriverProfile";
 import { PageTitle } from "@/components/ui/DriverCell";
 import { ProviderErrorMessage, StateMessage, compoundColour, compoundLabel } from "@/components/ui/primitives";
-import { ProvenanceNote } from "@/components/ui/Provenance";
+import { SourceInfo } from "@/components/ui/Popover";
 
 function LatestRaceStrategy({ teamId }: { teamId: TeamId }) {
   const hydrated = useHydrated();
@@ -37,7 +37,9 @@ function LatestRaceStrategy({ teamId }: { teamId: TeamId }) {
     <section className="panel" aria-label="Latest race strategy">
       <div className="panel-head">
         <span className="panel-title">Latest race strategy</span>
-        <span className="text-[11px] text-fg-3">{latest ? latest.event.name : ""}</span>
+        <span className="text-[12px] text-fg-3">{latest ? latest.event.name : ""}</span>
+        <span className="ml-auto" />
+        <SourceInfo provenance={res.provenance} />
       </div>
       {res.status === "error" && res.error ? (
         <ProviderErrorMessage error={res.error} onRetry={res.reload} />
@@ -89,9 +91,6 @@ function LatestRaceStrategy({ teamId }: { teamId: TeamId }) {
           })}
         </div>
       )}
-      <div className="border-t border-line px-2.5 py-1.5">
-        <ProvenanceNote provenance={res.provenance} />
-      </div>
     </section>
   );
 }
@@ -204,7 +203,6 @@ export function TeamProfile({ teamId }: { teamId: TeamId }) {
           <LatestRaceStrategy teamId={teamId} />
         </div>
       )}
-      <ProvenanceNote provenance={season.provenance} />
     </div>
   );
 }

@@ -13,8 +13,8 @@ import { demoTelemetry } from "@/lib/timing/providers/demo/provider";
 import { alignLaps } from "@/lib/timing/telemetry";
 import type { LapRecord, Provenance, TelemetryLap } from "@/lib/timing/types";
 import { PageTitle } from "@/components/ui/DriverCell";
-import { ProviderErrorMessage, SimulatedBanner, StateMessage } from "@/components/ui/primitives";
-import { ProvenanceNote } from "@/components/ui/Provenance";
+import { ProviderErrorMessage, StateMessage } from "@/components/ui/primitives";
+import { SourceInfo } from "@/components/ui/Popover";
 import { TelemetryChart, type ChannelPoint } from "./TelemetryChart";
 
 type Channel = "speed" | "throttle" | "brake" | "gear" | "rpm" | "delta";
@@ -147,12 +147,21 @@ export function TelemetryView() {
 
   return (
     <div className="flex flex-col gap-3">
-      <PageTitle title="Telemetry">
-        <span className="text-[12px] text-fg-2">
-          {isDemo ? "Demo session (simulated)" : feed.event ? `${feed.event.name} — ${feed.session?.name}` : ""} · choose the session in the header
-        </span>
-      </PageTitle>
-      {isDemo && <SimulatedBanner>Synthetic telemetry for example laps of a fictional race. It is not recorded car data.</SimulatedBanner>}
+      <PageTitle
+        title="Telemetry"
+        subtitle={isDemo ? "Example laps from the simulated demo race — not recorded car data" : "Compare two laps: speed, throttle, braking and gears around the circuit"}
+        provenance={telA.provenance}
+        info={
+          <>
+            <p className="mb-2">
+              Only the channels the source provides are shown: speed, throttle, brake (on/off), gear and engine RPM. There is no battery, energy or brake-temperature data, and DRS doesn&apos;t exist in 2026.
+            </p>
+            <p className="mb-2">
+              Both laps are lined up by distance (10 m steps). Lap B&apos;s distance is scaled to lap A&apos;s length to cancel measuring drift; the delta compares each lap&apos;s own time at the same point.
+            </p>
+          </>
+        }
+      />
 
       {feed.source.kind !== "demo" && feed.source.kind !== "historical" && feed.source.kind !== "live" ? (
         <div className="panel">
@@ -255,14 +264,6 @@ export function TelemetryView() {
               </div>
             </>
           )}
-          <div className="space-y-1 border-t border-line px-3 py-2 text-[11px] text-fg-3">
-            <p>
-              Channels shown are exactly those the source supplies: speed, throttle, brake (on/off), gear and engine RPM. No battery, energy-deployment, brake-temperature or other internal channels are available, so none are shown. DRS
-              does not exist in 2026 and the source&apos;s legacy DRS field is not displayed.
-            </p>
-            <p>Both laps are resampled onto a shared 10 m distance grid. Lap B&apos;s distance is scaled to lap A&apos;s length to cancel integration drift (only when they differ by under 5%); the delta compares each lap&apos;s own elapsed time at the same distance.</p>
-            <ProvenanceNote provenance={telA.provenance} />
-          </div>
         </section>
       )}
     </div>

@@ -1,36 +1,16 @@
 "use client";
 
-import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import type { SortKey } from "@/lib/timing/calculations";
 import type { SessionType } from "@/lib/config/season-2026";
 import { readJson, writeJson } from "./storage";
 
-export type ColumnId =
-  | "pos"
-  | "chg"
-  | "num"
-  | "driver"
-  | "team"
-  | "lap"
-  | "last"
-  | "best"
-  | "gap"
-  | "int"
-  | "s1"
-  | "s2"
-  | "s3"
-  | "st"
-  | "tyre"
-  | "age"
-  | "pits"
-  | "q1"
-  | "q2"
-  | "q3"
-  | "status";
+export type ColumnId = "pos" | "chg" | "num" | "driver" | "team" | "lap" | "last" | "best" | "gap" | "int" | "s1" | "s2" | "s3" | "st" | "tyre" | "pits" | "q1" | "q2" | "q3" | "status";
 
 export interface ColumnDef {
   id: ColumnId;
   label: string;
+  /** Plain-language explanation shown as the header tooltip and in the column menu. */
   title: string;
   width: number;
   align: "left" | "right" | "center";
@@ -38,8 +18,9 @@ export interface ColumnDef {
   /** Required columns cannot be hidden. */
   required?: boolean;
   sessions?: SessionType[];
-  defaultVisible: boolean;
-  /** Hidden by default in compact mode. */
+  /** Part of the Standard view; everything else appears in the Full view. */
+  standard: boolean;
+  /** Hidden in compact mode (tower beside a video window). */
   compactHidden?: boolean;
 }
 
@@ -47,63 +28,56 @@ const RACE: SessionType[] = ["RACE", "SPRINT"];
 const QUALI: SessionType[] = ["QUALIFYING", "SPRINT_QUALIFYING"];
 
 export const COLUMNS: ColumnDef[] = [
-  { id: "pos", label: "Pos", title: "Position (authoritative order from the source)", width: 40, align: "right", sortKey: "position", required: true, defaultVisible: true },
-  { id: "driver", label: "Driver", title: "Driver code and team marker", width: 74, align: "left", required: true, defaultVisible: true },
-  { id: "chg", label: "+/−", title: "Places gained or lost against the start", width: 36, align: "right", sessions: RACE, defaultVisible: true, compactHidden: true },
-  { id: "num", label: "No", title: "Car number", width: 34, align: "right", defaultVisible: true, compactHidden: true },
-  { id: "team", label: "Team", title: "Team", width: 112, align: "left", defaultVisible: true, compactHidden: true },
-  { id: "lap", label: "Laps", title: "Laps completed", width: 42, align: "right", defaultVisible: true, compactHidden: true },
-  { id: "gap", label: "Gap", title: "Race: time behind the leader on track. Practice/qualifying: best lap minus the fastest lap (in the phase that decided the position).", width: 78, align: "right", sortKey: "gap", defaultVisible: true },
-  { id: "int", label: "Int", title: "Race: time behind the car immediately ahead. Practice/qualifying: best lap minus the best lap of the car ahead.", width: 72, align: "right", sortKey: "interval", defaultVisible: true },
-  { id: "last", label: "Last", title: "Last completed lap", width: 78, align: "right", sortKey: "lastLap", defaultVisible: true },
-  { id: "best", label: "Best", title: "Personal best valid lap", width: 78, align: "right", sortKey: "bestLap", defaultVisible: true },
-  { id: "q1", label: "Q1", title: "Best valid Q1 lap", width: 72, align: "right", sessions: QUALI, defaultVisible: true, compactHidden: true },
-  { id: "q2", label: "Q2", title: "Best valid Q2 lap", width: 72, align: "right", sessions: QUALI, defaultVisible: true, compactHidden: true },
-  { id: "q3", label: "Q3", title: "Best valid Q3 lap", width: 72, align: "right", sessions: QUALI, defaultVisible: true, compactHidden: true },
-  { id: "s1", label: "S1", title: "Sector 1 (faded = carried over from the previous lap)", width: 60, align: "right", sortKey: "s1", defaultVisible: true, compactHidden: true },
-  { id: "s2", label: "S2", title: "Sector 2", width: 60, align: "right", sortKey: "s2", defaultVisible: true, compactHidden: true },
-  { id: "s3", label: "S3", title: "Sector 3", width: 60, align: "right", sortKey: "s3", defaultVisible: true, compactHidden: true },
-  { id: "st", label: "ST", title: "Speed trap on the last completed lap", width: 48, align: "right", sortKey: "speedTrap", defaultVisible: true, compactHidden: true },
-  { id: "tyre", label: "Tyre", title: "Current tyre compound (as reported by the source)", width: 40, align: "center", defaultVisible: true },
-  { id: "age", label: "Age", title: "Laps on the current set. * = derived from the stint's starting age plus laps completed.", width: 40, align: "right", defaultVisible: true, compactHidden: true },
-  { id: "pits", label: "Pit", title: "Pit-lane visits (not necessarily tyre changes)", width: 34, align: "right", defaultVisible: true, compactHidden: true },
-  { id: "status", label: "Status", title: "Car state from the source: PIT, OUT, RETIRED, DNS, DSQ, FINISHED", width: 70, align: "left", defaultVisible: true },
+  { id: "pos", label: "Pos", title: "Position", width: 46, align: "center", sortKey: "position", required: true, standard: true },
+  { id: "driver", label: "Driver", title: "Driver (click a row for details)", width: 150, align: "left", required: true, standard: true },
+  { id: "chg", label: "+/−", title: "Places gained or lost since the start", width: 44, align: "right", sessions: RACE, standard: false, compactHidden: true },
+  { id: "num", label: "No.", title: "Car number", width: 40, align: "right", standard: false, compactHidden: true },
+  { id: "team", label: "Team", title: "Team", width: 120, align: "left", standard: false, compactHidden: true },
+  { id: "lap", label: "Laps", title: "Laps completed", width: 48, align: "right", standard: false, compactHidden: true },
+  { id: "gap", label: "Gap", title: "Race: how far behind the leader. Practice/qualifying: how much slower their best lap is than the fastest.", width: 84, align: "right", sortKey: "gap", standard: true },
+  { id: "int", label: "Interval", title: "Race: how far behind the car directly in front. Practice/qualifying: best-lap difference to the car in front.", width: 80, align: "right", sortKey: "interval", standard: true },
+  { id: "last", label: "Last lap", title: "Most recent completed lap", width: 86, align: "right", sortKey: "lastLap", standard: true },
+  { id: "best", label: "Best lap", title: "Fastest valid lap (purple = fastest of anyone)", width: 86, align: "right", sortKey: "bestLap", standard: true },
+  { id: "q1", label: "Q1", title: "Best valid Q1 lap", width: 80, align: "right", sessions: QUALI, standard: true, compactHidden: true },
+  { id: "q2", label: "Q2", title: "Best valid Q2 lap", width: 80, align: "right", sessions: QUALI, standard: true, compactHidden: true },
+  { id: "q3", label: "Q3", title: "Best valid Q3 lap", width: 80, align: "right", sessions: QUALI, standard: true, compactHidden: true },
+  { id: "s1", label: "S1", title: "Sector 1 (faded = from the previous lap)", width: 64, align: "right", sortKey: "s1", standard: false, compactHidden: true },
+  { id: "s2", label: "S2", title: "Sector 2", width: 64, align: "right", sortKey: "s2", standard: false, compactHidden: true },
+  { id: "s3", label: "S3", title: "Sector 3", width: 64, align: "right", sortKey: "s3", standard: false, compactHidden: true },
+  { id: "st", label: "Speed", title: "Speed trap on the last lap", width: 58, align: "right", sortKey: "speedTrap", standard: false, compactHidden: true },
+  { id: "tyre", label: "Tyre", title: "Current tyre and how many laps it has done", width: 70, align: "left", standard: true },
+  { id: "pits", label: "Pits", title: "Pit-lane visits", width: 44, align: "right", sessions: RACE, standard: false, compactHidden: true },
+  { id: "status", label: "", title: "In pit lane, out lap, retired or finished", width: 84, align: "left", standard: true },
 ];
 
-const KEY = "apex.columns.v1";
+export type ColumnPreset = "standard" | "full" | "custom";
 
-export function defaultVisible(): Record<ColumnId, boolean> {
-  return Object.fromEntries(COLUMNS.map((c) => [c.id, c.defaultVisible])) as Record<ColumnId, boolean>;
+const KEY = "apex.columns.v2";
+
+function presetVisibility(preset: "standard" | "full"): Record<ColumnId, boolean> {
+  return Object.fromEntries(COLUMNS.map((c) => [c.id, preset === "full" || c.standard])) as Record<ColumnId, boolean>;
 }
 
 /** Column visibility, saved for the current browser session only. Shared through ColumnsProvider. */
 export function useColumnVisibilityState() {
-  const [visible, setVisible] = useState<Record<ColumnId, boolean>>(defaultVisible);
+  const [visible, setVisible] = useState<Record<ColumnId, boolean>>(() => presetVisibility("standard"));
   useEffect(() => {
-    setVisible({ ...defaultVisible(), ...readJson<Partial<Record<ColumnId, boolean>>>("session", KEY, {}) });
+    setVisible({ ...presetVisibility("standard"), ...readJson<Partial<Record<ColumnId, boolean>>>("session", KEY, {}) });
   }, []);
+  const save = (next: Record<ColumnId, boolean>) => {
+    writeJson("session", KEY, next);
+    return next;
+  };
   const toggle = useCallback((id: ColumnId) => {
-    setVisible((prev) => {
-      const col = COLUMNS.find((c) => c.id === id);
-      if (col?.required) return prev;
-      const next = { ...prev, [id]: !prev[id] };
-      writeJson("session", KEY, next);
-      return next;
-    });
+    setVisible((prev) => (COLUMNS.find((c) => c.id === id)?.required ? prev : save({ ...prev, [id]: !prev[id] })));
   }, []);
-  const resetColumns = useCallback(() => {
-    writeJson("session", KEY, defaultVisible());
-    setVisible(defaultVisible());
-  }, []);
-  return { visible, toggle, resetColumns };
-}
-
-export function columnsFor(sessionType: SessionType, visible: Record<ColumnId, boolean>, compact: boolean): ColumnDef[] {
-  return COLUMNS.filter((c) => {
-    if (c.sessions && !c.sessions.includes(sessionType)) return false;
-    if (compact && c.compactHidden) return false;
-    return c.required || visible[c.id];
-  });
+  const applyPreset = useCallback((preset: "standard" | "full") => setVisible(save(presetVisibility(preset))), []);
+  const resetColumns = useCallback(() => applyPreset("standard"), [applyPreset]);
+  const preset: ColumnPreset = useMemo(() => {
+    const same = (p: "standard" | "full") => COLUMNS.every((c) => c.required || visible[c.id] === presetVisibility(p)[c.id]);
+    return same("standard") ? "standard" : same("full") ? "full" : "custom";
+  }, [visible]);
+  return { visible, toggle, applyPreset, resetColumns, preset };
 }
 
 type ColumnsCtx = ReturnType<typeof useColumnVisibilityState>;
@@ -118,4 +92,12 @@ export function useColumnVisibility(): ColumnsCtx {
   const ctx = useContext(ColumnsContext);
   if (!ctx) throw new Error("useColumnVisibility must be used inside ColumnsProvider");
   return ctx;
+}
+
+export function columnsFor(sessionType: SessionType, visible: Record<ColumnId, boolean>, compact: boolean): ColumnDef[] {
+  return COLUMNS.filter((c) => {
+    if (c.sessions && !c.sessions.includes(sessionType)) return false;
+    if (compact && c.compactHidden) return false;
+    return c.required || visible[c.id];
+  });
 }

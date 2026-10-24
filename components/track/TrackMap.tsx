@@ -125,9 +125,8 @@ export function TrackMap({ geometry, cars, selected, onSelect, markerBasis, heig
           </svg>
           Direction
         </span>
-        <span>{markerBasis}</span>
+        {markerBasis && <span>{markerBasis}</span>}
       </div>
-      <div className="text-[10.5px] text-fg-3">{geometry.basis}</div>
     </div>
   );
 }

@@ -2,7 +2,7 @@ import type { NextRequest } from "next/server";
 import { z } from "zod";
 import { SEASON_2026, scheduleState } from "@/lib/config/season-2026";
 import { openf1 } from "@/lib/server/openf1";
-import { badRequest, fail, ok } from "@/lib/server/respond";
+import { badRequest, fail, ok, upstreamFailure } from "@/lib/server/respond";
 import { UpstreamError } from "@/lib/server/upstream";
 import { deletedLapIndex, trackFromLocations } from "@/lib/timing/normalisation";
 import { of1Lap, of1Location, of1RaceControl } from "@/lib/timing/validation";
@@ -67,7 +67,7 @@ export async function GET(req: NextRequest) {
       3600,
     );
   } catch (err) {
-    if (err instanceof UpstreamError) return fail(502, { error: `${err.provider} request failed`, code: err.status === 429 ? "RATE_LIMITED" : "UPSTREAM_ERROR", mode: "OFFLINE", provider: err.provider, detail: err.message });
+    if (err instanceof UpstreamError) return upstreamFailure(err);
     return fail(500, { error: err instanceof Error ? err.message : String(err), code: "UPSTREAM_ERROR", mode: "OFFLINE", provider: "apex-timing" });
   }
 }

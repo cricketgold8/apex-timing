@@ -61,7 +61,7 @@ export function DataModeBadge({ mode, freshness, compact = false }: { mode: Data
   if (mode === "LIVE" && freshness === "stale") style = { label: "LIVE · STALE", detail: "no new source data", cls: "text-yellow border-yellow/40 bg-yellow/10" };
   if (freshness === "offline" && mode !== "DEMO") style = MODE_STYLE.OFFLINE;
   return (
-    <span className={`inline-flex h-6 items-center gap-1.5 rounded-[3px] border px-2 text-[11px] font-semibold tracking-wide ${style.cls}`} title={`${style.label} — ${style.detail}`} role="status">
+    <span className={`inline-flex h-7 items-center gap-1.5 rounded-full border px-2.5 text-[11px] font-semibold tracking-wide ${style.cls}`} title={`${style.label} — ${style.detail}`} role="status">
       {mode === "LIVE" && freshness === "fresh" ? <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-green" aria-hidden /> : mode === "LIVE" ? <Radio size={12} aria-hidden /> : null}
       {style.label}
       {!compact && <span className="font-normal opacity-75">— {style.detail}</span>}
@@ -72,35 +72,37 @@ export function DataModeBadge({ mode, freshness, compact = false }: { mode: Data
 export function StateMessage({ kind, title, children, action }: { kind: "loading" | "empty" | "error" | "offline" | "info"; title: string; children?: ReactNode; action?: ReactNode }) {
   const Icon = kind === "loading" ? Loader2 : kind === "error" ? AlertTriangle : kind === "offline" ? CloudOff : Info;
   return (
-    <div className="flex min-h-[120px] flex-col items-center justify-center gap-2 px-6 py-8 text-center" role={kind === "error" ? "alert" : "status"}>
-      <Icon size={20} className={`${kind === "loading" ? "animate-spin" : ""} ${kind === "error" ? "text-red" : "text-fg-3"}`} aria-hidden />
-      <div className="text-[13px] font-semibold text-fg">{title}</div>
-      {children && <div className="max-w-[520px] text-[12px] text-fg-2">{children}</div>}
+    <div className="flex min-h-[140px] flex-col items-center justify-center gap-2.5 px-6 py-8 text-center" role={kind === "error" ? "alert" : "status"}>
+      <Icon size={22} className={`${kind === "loading" ? "animate-spin" : ""} ${kind === "error" ? "text-red" : "text-fg-3"}`} aria-hidden />
+      <div className="text-[15px] font-semibold text-fg">{title}</div>
+      {children && <div className="max-w-[540px] text-[13px] leading-relaxed text-fg-2">{children}</div>}
       {action}
     </div>
   );
 }
 
+const ERROR_TITLE: Record<ProviderError["code"], string> = {
+  CREDENTIALS_MISSING: "Live timing isn't set up",
+  NOT_PUBLISHED: "Nothing published yet",
+  RATE_LIMITED: "The data provider is busy",
+  NOT_FOUND: "Not found",
+  LIVE_LOCKED: "Paused during a live session",
+  UNAUTHORISED: "The data provider refused access",
+  UPSTREAM_ERROR: "Couldn't load the data",
+  BAD_REQUEST: "Something went wrong",
+};
+
+/** A failed request, explained in plain words. Nothing is ever shown in place of the missing data. */
 export function ProviderErrorMessage({ error, onRetry, extra }: { error: ProviderError; onRetry?: () => void; extra?: ReactNode }) {
-  const title =
-    error.code === "CREDENTIALS_MISSING"
-      ? "Live data not configured"
-      : error.code === "NOT_PUBLISHED"
-        ? "No data published yet"
-        : error.code === "RATE_LIMITED"
-          ? "Provider rate limit reached"
-          : error.code === "NOT_FOUND"
-            ? "Not found"
-            : "Data source unavailable";
   return (
     <StateMessage
       kind={error.code === "UPSTREAM_ERROR" || error.code === "RATE_LIMITED" || error.code === "UNAUTHORISED" ? "error" : "info"}
-      title={title}
+      title={ERROR_TITLE[error.code]}
       action={
-        <div className="mt-1 flex gap-2">
-          {onRetry && (
+        <div className="mt-1 flex flex-wrap justify-center gap-2">
+          {onRetry && error.code !== "NOT_FOUND" && error.code !== "BAD_REQUEST" && (
             <button className="btn" onClick={onRetry}>
-              Retry
+              Try again
             </button>
           )}
           {extra}
@@ -109,7 +111,6 @@ export function ProviderErrorMessage({ error, onRetry, extra }: { error: Provide
     >
       {error.error}
       {error.detail ? <span className="block pt-1 text-fg-3">{error.detail}</span> : null}
-      <span className="block pt-1 text-fg-3">Provider: {error.provider}. No substitute data is shown.</span>
     </StateMessage>
   );
 }

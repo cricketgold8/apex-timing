@@ -6,6 +6,7 @@ import { MAX_SERIES, seriesVar, useSeriesSlots } from "@/lib/client/series";
 import { useLapHistories } from "@/lib/client/useLaps";
 import { formatLapTime } from "@/lib/timing/formatters";
 import type { LapRecord, TimingSnapshot } from "@/lib/timing/types";
+import { SourceInfo } from "@/components/ui/Popover";
 import { ProviderErrorMessage, StateMessage } from "@/components/ui/primitives";
 
 /** Axis upper bound relative to the fastest lap plotted; slower laps are pinned to the edge and flagged. */
@@ -24,12 +25,12 @@ interface DotProps {
 }
 
 export function LapTimeChart({ snapshot, initial }: { snapshot: TimingSnapshot; initial: number[] }) {
-  const [drivers, setDrivers] = useState<number[]>(() => [...new Set(initial)].slice(0, 4));
+  const [drivers, setDrivers] = useState<number[]>(() => [...new Set(initial)].slice(0, 3));
   useEffect(() => {
     // When the session changes, drop drivers that are not in it.
     setDrivers((prev) => {
       const valid = prev.filter((d) => snapshot.rows.some((r) => r.driverNumber === d));
-      return valid.length ? valid : [...new Set(initial)].slice(0, 4);
+      return valid.length ? valid : [...new Set(initial)].slice(0, 3);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [snapshot.session.id]);
@@ -85,31 +86,42 @@ export function LapTimeChart({ snapshot, initial }: { snapshot: TimingSnapshot; 
       return <g key={key} />;
     };
 
+  const available = snapshot.rows.filter((r) => !drivers.includes(r.driverNumber));
+
   return (
-    <section className="panel" aria-label="Lap time chart">
-      <div className="panel-head">
-        <span className="panel-title">Lap times</span>
-        <span className="text-[11px] text-fg-3">
-          up to {MAX_SERIES} drivers · {drivers.length} selected
-        </span>
-      </div>
-      <div className="flex flex-wrap gap-1 border-b border-line-soft px-3 py-2" role="group" aria-label="Drivers shown">
-        {snapshot.rows.map((r) => {
-          const on = drivers.includes(r.driverNumber);
-          return (
-            <button
-              key={r.driverNumber}
-              className="btn h-6 px-1.5 text-[11px]"
-              aria-pressed={on}
-              onClick={() => toggle(r.driverNumber)}
-              disabled={!on && drivers.length >= MAX_SERIES}
-              title={`${r.name}${!on && drivers.length >= MAX_SERIES ? ` — limit of ${MAX_SERIES} reached` : ""}`}
-            >
-              {on && <span className="h-2 w-2 rounded-full" style={{ background: seriesVar(slots.get(r.driverNumber) ?? 0) }} aria-hidden />}
-              <span className="display font-bold tracking-wide">{r.code}</span>
-            </button>
-          );
-        })}
+    <section aria-label="Lap time chart">
+      <div className="flex flex-wrap items-center gap-1.5 px-4 pt-3 pb-1" role="group" aria-label="Drivers shown">
+        {drivers.map((d) => (
+          <button key={d} className="chip h-7 hover:border-fg-3" onClick={() => toggle(d)} title={`Remove ${codes.get(d)}`}>
+            <span className="h-2.5 w-2.5 rounded-full" style={{ background: seriesVar(slots.get(d) ?? 0) }} aria-hidden />
+            <span className="display text-[13px] font-bold tracking-wide text-fg">{codes.get(d)}</span>
+            <span aria-hidden className="text-fg-3">×</span>
+          </button>
+        ))}
+        {drivers.length < MAX_SERIES && (
+          <>
+            <label className="sr-only" htmlFor="lap-chart-add">
+              Add a driver
+            </label>
+            <select id="lap-chart-add" className="control h-7 text-[12px]" value="" onChange={(e) => e.target.value && toggle(Number(e.target.value))}>
+              <option value="">+ Add driver</option>
+              {available.map((r) => (
+                <option key={r.driverNumber} value={r.driverNumber}>
+                  {r.position ? `P${r.position} ` : ""}
+                  {r.code} · {r.name}
+                </option>
+              ))}
+            </select>
+          </>
+        )}
+        <span className="ml-auto" />
+        <SourceInfo provenance={laps.provenance}>
+          <p className="mb-2">
+            Faster laps are higher. The scale runs from the fastest lap shown to {Math.round((CEILING - 1) * 100)}% slower.{" "}
+            {isRace ? "Slower laps (lap 1, pit stops, Safety Car) sit on the bottom edge — hover for the exact time." : "Slower laps (out-laps and cool-down laps) are left off; the Driver tab lists every lap."} Squares mark pit-stop laps; hollow dots
+            mark laps deleted by race control.
+          </p>
+        </SourceInfo>
       </div>
       {laps.status === "error" && laps.error ? (
         <ProviderErrorMessage error={laps.error} onRetry={laps.reload} />
@@ -121,7 +133,7 @@ export function LapTimeChart({ snapshot, initial }: { snapshot: TimingSnapshot; 
         <StateMessage kind="empty" title="No completed laps yet" />
       ) : (
         <div className="px-1 pt-2">
-          <ResponsiveContainer width="100%" height={280}>
+          <ResponsiveContainer width="100%" height={340}>
             <LineChart data={data} margin={{ top: 8, right: 40, bottom: 18, left: 8 }}>
               <CartesianGrid stroke="var(--grid)" vertical={false} />
               <XAxis dataKey="lap" type="number" domain={[1, "dataMax"]} allowDecimals={false} tick={{ fill: "var(--text-3)", fontSize: 11 }} stroke="var(--line)" label={{ value: "Lap", position: "insideBottom", offset: -10, fill: "var(--text-3)", fontSize: 11 }} />
@@ -132,7 +144,7 @@ export function LapTimeChart({ snapshot, initial }: { snapshot: TimingSnapshot; 
                 tick={{ fill: "var(--text-3)", fontSize: 11 }}
                 stroke="var(--line)"
                 width={64}
-                label={{ value: "Lap time (faster ↑)", angle: -90, position: "insideLeft", offset: 4, fill: "var(--text-3)", fontSize: 11, dy: 50 }}
+                
               />
               <Tooltip
                 cursor={{ stroke: "var(--text-3)", strokeWidth: 1 }}
@@ -140,7 +152,7 @@ export function LapTimeChart({ snapshot, initial }: { snapshot: TimingSnapshot; 
                   if (!active || !payload?.length) return null;
                   const p = payload[0]?.payload as Point;
                   return (
-                    <div className="panel px-2.5 py-2 text-[12px]">
+                    <div className="pop px-3 py-2 text-[12px]">
                       <div className="label mb-1">Lap {label}</div>
                       {drivers.map((d) => {
                         const raw = p[`raw${d}`] as number | undefined;
@@ -185,13 +197,6 @@ export function LapTimeChart({ snapshot, initial }: { snapshot: TimingSnapshot; 
               ))}
             </LineChart>
           </ResponsiveContainer>
-          <p className="px-3 pb-2 text-[10.5px] text-fg-3">
-            Y axis is reversed (faster laps higher) and spans the fastest plotted lap to +{Math.round((CEILING - 1) * 100)}%.{" "}
-            {isRace
-              ? "Slower laps — lap 1, pit laps, SC/VSC — are pinned to the bottom edge (▼) with the exact time on hover."
-              : "Laps slower than that (out, cool-down and aborted laps) are omitted; the lap history table lists every lap."}{" "}
-            ■ pit in/out lap, ◌ lap deleted by race control.
-          </p>
         </div>
       )}
     </section>

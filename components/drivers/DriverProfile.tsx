@@ -10,7 +10,7 @@ import type { ResultRow } from "@/lib/results/types";
 import { formatLapTime } from "@/lib/timing/formatters";
 import { PageTitle } from "@/components/ui/DriverCell";
 import { ProviderErrorMessage, StateMessage } from "@/components/ui/primitives";
-import { ProvenanceNote } from "@/components/ui/Provenance";
+import { SourceInfo } from "@/components/ui/Popover";
 
 function Stat({ label, value, hint }: { label: string; value: string | number; hint?: string }) {
   return (
@@ -88,7 +88,9 @@ export function DriverProfile({ driverId }: { driverId: string }) {
             <section className="panel overflow-x-auto" aria-label="Season results">
               <div className="panel-head">
                 <span className="panel-title">2026 results</span>
-                <span className="text-[11px] text-fg-3">through round {s.lastRound}</span>
+                <span className="text-[12px] text-fg-3">through round {s.lastRound}</span>
+                <span className="ml-auto" />
+                <SourceInfo provenance={season.provenance} />
               </div>
               <table className="data-table tnum">
                 <thead>
@@ -185,7 +187,6 @@ export function DriverProfile({ driverId }: { driverId: string }) {
               </section>
             </div>
           </div>
-          <ProvenanceNote provenance={season.provenance} />
         </>
       )}
     </div>

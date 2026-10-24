@@ -5,35 +5,35 @@ import { DRIVERS_2026, SUBSTITUTE_DRIVERS_2026, type DriverConfig } from "@/lib/
 import { TEAM_LIST, TEAMS_2026 } from "@/lib/config/teams-2026";
 import { useSeason } from "@/lib/client/season";
 import { PageTitle } from "@/components/ui/DriverCell";
-import { ProvenanceNote } from "@/components/ui/Provenance";
 
 function DriverCard({ d, standing }: { d: DriverConfig; standing?: { position: number; points: number; wins: number; podiums: number } }) {
   const team = TEAMS_2026[d.teamId];
   return (
-    <Link href={`/drivers/${d.id}`} className="panel focus-ring group relative flex overflow-hidden hover:bg-panel-2" aria-label={`${d.displayName}, ${team.name}`}>
-      <span className="w-1 shrink-0" style={{ background: team.colour }} aria-hidden />
-      <div className="flex flex-1 items-center gap-3 p-3">
-        <span className="display tnum w-14 text-right text-[38px] font-bold leading-none text-fg-3 group-hover:text-fg-2">{d.number}</span>
+    <Link href={`/drivers/${d.id}`} className="panel focus-ring group relative flex overflow-hidden transition-colors hover:bg-panel-2" aria-label={`${d.displayName}, ${team.name}`}>
+      <span className="w-1.5 shrink-0" style={{ background: team.colour }} aria-hidden />
+      <div className="flex flex-1 items-center gap-4 px-4 py-3.5">
         <div className="min-w-0 flex-1">
-          <div className="display text-[18px] font-bold leading-tight tracking-[0.03em]">{d.code}</div>
-          <div className="truncate text-[13px] text-fg">{d.displayName}</div>
-          <div className="truncate text-[11.5px] text-fg-2">
+          <div className="flex items-baseline gap-2">
+            <span className="display text-[22px] font-bold leading-none tracking-[0.04em]">{d.code}</span>
+            <span className="display tnum text-[15px] font-semibold text-fg-3">#{d.number}</span>
+          </div>
+          <div className="mt-1 truncate text-[14px] font-medium text-fg">{d.displayName}</div>
+          <div className="truncate text-[12px] text-fg-3">
             {team.name} · {d.nationality}
           </div>
         </div>
-        <div className="text-right">
-          {standing ? (
-            <>
-              <div className="display text-[20px] font-bold leading-none">P{standing.position}</div>
-              <div className="tnum text-[12px] text-fg-2">{standing.points} pts</div>
-              <div className="tnum text-[10.5px] text-fg-3">
-                {standing.wins}W · {standing.podiums}P
+        {standing && (
+          <div className="text-right">
+            <div className="display text-[24px] font-bold leading-none">P{standing.position}</div>
+            <div className="tnum mt-1 text-[12.5px] text-fg-2">{standing.points} pts</div>
+            {standing.wins + standing.podiums > 0 && (
+              <div className="tnum text-[11.5px] text-fg-3">
+                {standing.wins > 0 ? `${standing.wins} win${standing.wins > 1 ? "s" : ""} · ` : ""}
+                {standing.podiums} podium{standing.podiums === 1 ? "" : "s"}
               </div>
-            </>
-          ) : (
-            <span className="text-[11px] text-fg-3">—</span>
-          )}
-        </div>
+            )}
+          </div>
+        )}
       </div>
     </Link>
   );
@@ -42,34 +42,25 @@ function DriverCard({ d, standing }: { d: DriverConfig; standing?: { position: n
 export function DriversView() {
   const season = useSeason();
   const standing = (id: string) => season.data?.drivers.find((s) => s.id === id);
+  const teamOrder = (d: DriverConfig) => TEAM_LIST.findIndex((t) => t.id === d.teamId);
+  // Championship order once standings load; team order until then.
+  const grid = [...DRIVERS_2026].sort((a, b) => (standing(a.id)?.position ?? 100 + teamOrder(a)) - (standing(b.id)?.position ?? 100 + teamOrder(b)));
   return (
-    <div className="flex flex-col gap-3">
-      <PageTitle title="2026 Drivers">
-        <span className="text-[12px] text-fg-2">22 race drivers, 11 teams. Standings from classified results{season.data ? ` after round ${season.data.lastRound}` : ""}.</span>
-      </PageTitle>
-      {TEAM_LIST.map((t) => (
-        <section key={t.id} aria-label={t.name}>
-          <h3 className="label mb-1.5 flex items-center gap-2">
-            <span className="h-3 w-3 rounded-[2px]" style={{ background: t.colour }} aria-hidden />
-            {t.name}
-          </h3>
-          <div className="grid gap-2 md:grid-cols-2">
-            {DRIVERS_2026.filter((d) => d.teamId === t.id).map((d) => (
-              <DriverCard key={d.id} d={d} standing={standing(d.id)} />
-            ))}
-          </div>
-        </section>
-      ))}
+    <div className="flex flex-col gap-6">
+      <PageTitle title="Drivers" subtitle={`The 22 drivers of the 2026 season${season.data ? `, in championship order after round ${season.data.lastRound}` : ""}`} provenance={season.provenance} />
+      <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+        {grid.map((d) => (
+          <DriverCard key={d.id} d={d} standing={standing(d.id)} />
+        ))}
+      </div>
       <section aria-label="Substitute appearances">
-        <h3 className="label mb-1.5">Substitute appearances in 2026</h3>
-        <div className="grid gap-2 md:grid-cols-2">
+        <h3 className="label mb-2">Also raced in 2026 (as a substitute)</h3>
+        <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
           {SUBSTITUTE_DRIVERS_2026.map((d) => (
             <DriverCard key={d.id} d={d} standing={standing(d.id)} />
           ))}
         </div>
-        <p className="mt-1 text-[11px] text-fg-3">Drivers who started championship sessions outside the regular line-up, as recorded in the classified results.</p>
       </section>
-      <ProvenanceNote provenance={season.provenance} />
     </div>
   );
 }

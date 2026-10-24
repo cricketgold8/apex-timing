@@ -33,7 +33,7 @@ export interface Sourced<T> {
 /** Error shape returned by API routes. `mode` tells the UI how to label the empty state. */
 export interface ProviderError {
   error: string;
-  code: "CREDENTIALS_MISSING" | "UPSTREAM_ERROR" | "NOT_FOUND" | "NOT_PUBLISHED" | "BAD_REQUEST" | "RATE_LIMITED" | "UNAUTHORISED";
+  code: "CREDENTIALS_MISSING" | "UPSTREAM_ERROR" | "NOT_FOUND" | "NOT_PUBLISHED" | "BAD_REQUEST" | "RATE_LIMITED" | "UNAUTHORISED" | "LIVE_LOCKED";
   mode: DataMode;
   provider: string;
   detail?: string;

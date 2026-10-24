@@ -6,6 +6,7 @@ import { DRIVERS_2026 } from "@/lib/config/drivers-2026";
 import { TEAMS_2026 } from "@/lib/config/teams-2026";
 import { COLUMNS, useColumnVisibility } from "@/lib/client/columns";
 import { LIVE_MIN_REFRESH_MS, useSettings } from "@/lib/client/settings";
+import { Segmented } from "@/components/ui/Popover";
 
 const ZONES = ["viewer", "event", "UTC", "Europe/London", "Europe/Paris", "America/New_York", "America/Chicago", "America/Los_Angeles", "America/Sao_Paulo", "Asia/Tokyo", "Asia/Singapore", "Australia/Melbourne"];
 const REFRESH = [4000, 5000, 8000, 15000, 30000];
@@ -33,7 +34,7 @@ function Toggle({ label, checked, onChange, hint }: { label: string; checked: bo
 
 export function SettingsDrawer({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { settings, update, reset } = useSettings();
-  const { visible, toggle, resetColumns } = useColumnVisibility();
+  const { visible, toggle, resetColumns, preset, applyPreset } = useColumnVisibility();
   const closeRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
@@ -115,15 +116,22 @@ export function SettingsDrawer({ open, onClose }: { open: boolean; onClose: () =
         </Section>
 
         <Section title="Timing columns">
-          <div className="grid grid-cols-2 gap-1.5">
+          <Segmented
+            label="Detail level"
+            value={preset === "custom" ? ("custom" as const) : preset}
+            options={[
+              { value: "standard", label: "Simple" },
+              { value: "full", label: "Detailed" },
+              ...(preset === "custom" ? [{ value: "custom" as const, label: "Custom" }] : []),
+            ]}
+            onChange={(v) => v !== "custom" && applyPreset(v)}
+          />
+          <div className="grid grid-cols-2 gap-1.5 pt-1">
             {COLUMNS.filter((c) => !c.required).map((c) => (
-              <Toggle key={c.id} label={`${c.label}${c.sessions ? " *" : ""}`} checked={visible[c.id]} onChange={() => toggle(c.id)} />
+              <Toggle key={c.id} label={c.label || "Status"} checked={visible[c.id]} onChange={() => toggle(c.id)} />
             ))}
           </div>
-          <p className="text-[11px] text-fg-3">* only shown for applicable session types. Saved for this browser session.</p>
-          <button className="btn" onClick={resetColumns}>
-            Reset columns
-          </button>
+          <p className="text-[11px] text-fg-3">Q1–Q3 only appear in qualifying, +/− and Pits only in races. Kept for this browser session.</p>
         </Section>
 
         <Section title="Drivers">

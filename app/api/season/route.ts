@@ -1,5 +1,5 @@
 import { ROUNDS_2026 } from "@/lib/config/season-2026";
-import { fail, ok } from "@/lib/server/respond";
+import { fail, ok, upstreamFailure } from "@/lib/server/respond";
 import { publishedStandings, scoredResults, seasonResults, teamNameMap } from "@/lib/server/results";
 import { UpstreamError } from "@/lib/server/upstream";
 import { constructorStandings, driverStandings, pointsDiscrepancies } from "@/lib/standings/standings";
@@ -88,7 +88,7 @@ export async function GET() {
       300,
     );
   } catch (err) {
-    if (err instanceof UpstreamError) return fail(502, { error: `${err.provider} request failed`, code: err.status === 429 ? "RATE_LIMITED" : "UPSTREAM_ERROR", mode: "OFFLINE", provider: err.provider, detail: err.message });
+    if (err instanceof UpstreamError) return upstreamFailure(err);
     return fail(500, { error: err instanceof Error ? err.message : String(err), code: "UPSTREAM_ERROR", mode: "OFFLINE", provider: "apex-timing" });
   }
 }

@@ -8,34 +8,76 @@ import { columnsFor, useColumnVisibility } from "@/lib/client/columns";
 import { useFeed } from "@/lib/client/feed";
 import { useHydrated, useNow } from "@/lib/client/hooks";
 import { resolveTimeZone, useSettings } from "@/lib/client/settings";
+import { readJson, writeJson } from "@/lib/client/storage";
 import { formatClock, formatDateTime } from "@/lib/timing/formatters";
+import type { TimingSnapshot } from "@/lib/timing/types";
 import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
-import { ProviderErrorMessage, SimulatedBanner, StateMessage } from "@/components/ui/primitives";
-import { ProvenanceNote } from "@/components/ui/Provenance";
+import { SourceInfo } from "@/components/ui/Popover";
+import { ProviderErrorMessage, StateMessage } from "@/components/ui/primitives";
 import { RaceControlFeed } from "@/components/race-control/RaceControlFeed";
 import { TyreStintTimeline } from "@/components/strategy/TyreStintTimeline";
 import { TrackPanel } from "@/components/track/TrackPanel";
-import { LapHistory } from "./LapHistory";
+import { DriverFocus } from "./DriverFocus";
 import { LapTimeChart } from "./LapTimeChart";
-import { SectorComparison } from "./SectorComparison";
 import { OFFICIAL_SORT, TimingTower, type SortState } from "./TimingTower";
 import { TimingToolbar } from "./TimingToolbar";
 
-function FallbackActions() {
+function FallbackActions({ inline = false }: { inline?: boolean }) {
   const feed = useFeed();
   const { update } = useSettings();
   const latest = latestCompletedSession();
   return (
-    <div className="mt-2 flex flex-wrap justify-center gap-2">
+    <div className={`${inline ? "contents" : "mt-4 flex flex-wrap justify-center gap-2"}`}>
       {latest && (
         <button className="btn" onClick={() => feed.setSession(latest.session.openf1SessionKey)}>
-          <History size={13} aria-hidden /> Latest completed: {latest.event.name} — {latest.session.name}
+          <History size={14} aria-hidden /> Show the last finished session ({latest.event.name.replace(" Grand Prix", " GP")} {latest.session.name})
         </button>
       )}
       <button className="btn" onClick={() => update({ demoMode: true })}>
-        <FlaskConical size={13} aria-hidden /> Open demo session (simulated)
+        <FlaskConical size={14} aria-hidden /> Try the demo race
       </button>
     </div>
+  );
+}
+
+type SideTab = "track" | "driver" | "rc" | "tyres" | "laps";
+const TAB_KEY = "apex.sideTab.v1";
+
+function SidePanel({ snap, selected, onSelect, initialLapDrivers }: { snap: TimingSnapshot; selected: number | null; onSelect: (n: number) => void; initialLapDrivers: number[] }) {
+  const feed = useFeed();
+  const [tab, setTab] = useState<SideTab>("track");
+  useEffect(() => setTab(readJson<SideTab>("session", TAB_KEY, "track")), []);
+  const choose = (t: SideTab) => {
+    setTab(t);
+    writeJson("session", TAB_KEY, t);
+  };
+  const code = snap.rows.find((r) => r.driverNumber === selected)?.code;
+  const tabs: Array<{ id: SideTab; label: string }> = [
+    { id: "track", label: "Track" },
+    { id: "driver", label: code ? `Driver · ${code}` : "Driver" },
+    { id: "rc", label: "Race control" },
+    { id: "tyres", label: "Tyres" },
+    { id: "laps", label: "Lap times" },
+  ];
+  return (
+    <section className="panel flex min-h-0 flex-col xl:sticky xl:top-[72px] xl:max-h-[calc(100vh-88px)]" aria-label="Session details">
+      <div className="tabs border-b border-line-soft px-2" role="tablist" aria-label="Details">
+        {tabs.map((t) => (
+          <button key={t.id} role="tab" aria-selected={tab === t.id} onClick={() => choose(t.id)}>
+            {t.label}
+          </button>
+        ))}
+      </div>
+      <div className="min-h-0 flex-1 overflow-y-auto" role="tabpanel">
+        <ErrorBoundary label="Panel">
+          {tab === "track" && <TrackPanel snapshot={snap} />}
+          {tab === "driver" && (selected !== null ? <DriverFocus snapshot={snap} driver={selected} /> : <StateMessage kind="info" title="Click a driver in the timing table" />)}
+          {tab === "rc" && <RaceControlFeed />}
+          {tab === "tyres" && <TyreStintTimeline snapshot={snap} selected={selected} onSelect={onSelect} />}
+          {tab === "laps" && <LapTimeChart key={feed.scope} snapshot={snap} initial={initialLapDrivers} />}
+        </ErrorBoundary>
+      </div>
+    </section>
   );
 }
 
@@ -47,7 +89,6 @@ export function LiveTimingView() {
   const hydrated = useHydrated();
   const now = useNow(1000);
   const [sort, setSort] = useState<SortState>(OFFICIAL_SORT);
-  const [compare, setCompare] = useState<[number | null, number | null]>([null, null]);
 
   // Deep links: /timing?session=11388 or /timing?demo=1
   useEffect(() => {
@@ -61,84 +102,55 @@ export function LiveTimingView() {
 
   const snap = feed.snapshot.data;
   const columns = useMemo(() => (snap ? columnsFor(snap.session.type, visible, settings.compact) : []), [snap?.session.type, visible, settings.compact]);
-
-  // Selected driver defaults to the leader of the current dataset.
   const leader = snap?.rows[0]?.driverNumber ?? null;
   const selected = snap && feed.selectedDriver !== null && snap.rows.some((r) => r.driverNumber === feed.selectedDriver) ? feed.selectedDriver : leader;
-  const pickB = (a: number | null) => {
-    if (!snap) return null;
-    const idx = snap.rows.findIndex((r) => r.driverNumber === a);
-    return snap.rows[idx > 0 ? idx - 1 : 1]?.driverNumber ?? null;
-  };
-  const cmpA = compare[0] ?? settings.compare[0] ?? selected;
-  const cmpB = compare[1] ?? settings.compare[1] ?? pickB(cmpA);
   const onSelect = useCallback((n: number) => feed.setSelectedDriver(n), [feed]);
-
   const tz = resolveTimeZone(settings.timeZone, feed.event?.circuit.timeZone);
   const src = feed.source;
 
   // ---- Non-data states ---------------------------------------------------------------------------
-  if (src.kind === "none") return <StateMessage kind="empty" title="Select a Grand Prix and session" />;
-  if (src.kind === "cancelled")
-    return (
-      <div className="panel">
-        <StateMessage kind="info" title="Session cancelled">
-          {feed.event?.name} — {feed.session?.name} was cancelled (per the OpenF1 calendar). There is no timing.
-          <FallbackActions />
-        </StateMessage>
-      </div>
-    );
+  const notice = (title: string, body: React.ReactNode) => (
+    <div className="panel mx-auto max-w-[720px] py-6">
+      <StateMessage kind="info" title={title}>
+        {body}
+        <FallbackActions />
+      </StateMessage>
+    </div>
+  );
+  if (src.kind === "none") return notice("Pick a session", "Use the session menu at the top right.");
+  if (src.kind === "cancelled") return notice("This session was cancelled", `${feed.event?.name} — ${feed.session?.name} didn't take place, so there's no timing.`);
   if (src.kind === "scheduled")
-    return (
-      <div className="panel">
-        <StateMessage kind="info" title={`${feed.event?.name} — ${feed.session?.name} has not started`}>
-          <span className="inline-flex items-center gap-1.5">
-            <CalendarClock size={13} aria-hidden />
-            {hydrated ? formatDateTime(src.start, { timeZone: tz, hour12: settings.hour12 }) : ""}
-            {hydrated && now ? ` · starts in ${formatClock(Math.max(0, (Date.parse(src.start) - now) / 1000))}` : ""}
-          </span>
-          <span className="block pt-1">No timing exists before the session. Nothing is shown in its place.</span>
-          <FallbackActions />
-        </StateMessage>
-      </div>
+    return notice(
+      `${feed.session?.name} hasn't started yet`,
+      <span className="inline-flex flex-wrap items-center justify-center gap-1.5">
+        <CalendarClock size={14} aria-hidden />
+        {hydrated ? formatDateTime(src.start, { timeZone: tz, hour12: settings.hour12 }) : ""}
+        {hydrated && now ? ` · starts in ${formatClock(Math.max(0, (Date.parse(src.start) - now) / 1000))}` : ""}
+      </span>,
     );
-  if (src.kind === "live-unavailable")
-    return (
-      <div className="panel">
-        <StateMessage kind="info" title="Live timing unavailable">
-          {src.reason} The app will not display partial or unauthenticated data as live timing.
-          <FallbackActions />
-        </StateMessage>
-      </div>
-    );
+  if (src.kind === "live-unavailable") return notice("This session is happening now", <>Live timing needs an OpenF1 account set up on the server, so nothing is shown rather than incomplete data. {src.reason.includes(".env") ? "See .env.example." : ""}</>);
 
   if (feed.snapshot.status === "error" && feed.snapshot.error && !snap)
     return (
-      <div className="panel">
-        <ProviderErrorMessage error={feed.snapshot.error} onRetry={feed.reload} extra={<FallbackActions />} />
+      <div className="panel mx-auto max-w-[720px] py-4">
+        <ProviderErrorMessage error={feed.snapshot.error} onRetry={feed.reload} extra={<FallbackActions inline />} />
       </div>
     );
   if (!snap)
     return (
-      <div className="panel">
-        <StateMessage kind="loading" title="Loading timing data">
-          {src.kind === "historical" ? "Fetching laps, positions, intervals, stints and race control from OpenF1. The first load of a session can take a few seconds." : null}
+      <div className="panel mx-auto max-w-[720px] py-6">
+        <StateMessage kind="loading" title="Loading timing">
+          {src.kind === "historical" ? "Fetching the session from OpenF1 — the first load can take a few seconds." : null}
         </StateMessage>
       </div>
     );
 
   const isDemo = src.kind === "demo";
+  const orderNote = snap.orderBasis === "classification" ? "Showing the final result." : snap.orderBasis === "race-position" ? "Order comes from the official position feed." : "Ordered by fastest lap.";
+
   const tower = (
-    <section className="panel min-w-0" aria-label="Timing tower">
-      <div className="panel-head flex-wrap gap-y-1 py-1.5">
-        <span className="panel-title">Timing</span>
-        <span className="text-[11px] text-fg-3">
-          {snap.orderBasis === "classification" ? "Final classification (provider)" : snap.orderBasis === "race-position" ? "Race order from position feed" : "Ordered by best lap"}
-          {snap.positionReference === "start-of-session" ? " · +/− vs. position feed at the start" : snap.positionReference === "grid" ? " · +/− vs. starting grid" : ""}
-        </span>
-        {feed.snapshot.offline && <span className="rounded-[2px] bg-red/15 px-1.5 text-[10.5px] font-bold text-red">OFFLINE — showing last received update</span>}
-      </div>
-      <div className="px-2 py-2">
+    <section className="panel min-w-0 overflow-hidden" aria-label="Timing">
+      <div className="flex flex-wrap items-center gap-2 border-b border-line-soft px-3 py-2.5">
         <TimingToolbar
           sort={sort}
           onSort={setSort}
@@ -151,67 +163,37 @@ export function LiveTimingView() {
           isDemo={isDemo}
         />
       </div>
-      <ErrorBoundary label="Timing tower">
-        <TimingTower snapshot={snap} columns={columns} sort={sort} onSort={setSort} selected={selected} onSelect={onSelect} highlighted={settings.highlighted} speedUnit={settings.speedUnit} flash={settings.flash} scope={feed.scope} />
+      {feed.snapshot.offline && <div className="border-b border-red/30 bg-red/10 px-4 py-2 text-[12.5px] font-medium text-red">Connection lost — showing the last update received.</div>}
+      <ErrorBoundary label="Timing table">
+        <TimingTower
+          snapshot={snap}
+          columns={columns}
+          sort={sort}
+          onSort={setSort}
+          selected={selected}
+          onSelect={onSelect}
+          highlighted={settings.highlighted}
+          speedUnit={settings.speedUnit}
+          flash={settings.flash}
+          scope={feed.scope}
+          compact={settings.compact}
+        />
       </ErrorBoundary>
-      <div className="flex flex-wrap items-center gap-x-4 gap-y-1 border-t border-line px-2.5 py-1.5 text-[11px] text-fg-3">
-        <span>
-          <span className="m-session-best">■</span> session best
-        </span>
-        <span>
-          <span className="m-personal-best">■</span> personal best
-        </span>
-        <span>
-          <span className="m-normal">■</span> completed
-        </span>
-        <span className="m-invalid">deleted</span>
-        <span className="m-carried">faded = previous lap</span>
-        <ProvenanceNote provenance={feed.snapshot.provenance} className="ml-auto" />
+      <div className="flex items-center gap-2 border-t border-line-soft px-4 py-2 text-[12px] text-fg-3">
+        <span>{orderNote}</span>
+        {snap.positionReference && <span>+/− compares with the {snap.positionReference === "grid" ? "starting grid" : "order at the start"}.</span>}
+        <span className="ml-auto" />
+        <SourceInfo provenance={feed.snapshot.provenance} />
       </div>
     </section>
   );
 
-  if (settings.compact) {
-    return (
-      <div className="mx-auto flex max-w-[640px] flex-col gap-2">
-        {isDemo && <SimulatedBanner />}
-        {tower}
-      </div>
-    );
-  }
+  if (settings.compact) return <div className="mx-auto max-w-[620px]">{tower}</div>;
 
   return (
-    <div className="flex flex-col gap-3">
-      {isDemo && <SimulatedBanner />}
-      <div className="grid gap-3 xl:grid-cols-[minmax(0,1fr)_minmax(380px,560px)]">
-        {tower}
-        <div className="flex min-w-0 flex-col gap-3">
-          <ErrorBoundary label="Track map">
-            <TrackPanel snapshot={snap} />
-          </ErrorBoundary>
-          <ErrorBoundary label="Race control">
-            <RaceControlFeed maxHeight={320} />
-          </ErrorBoundary>
-        </div>
-      </div>
-      <div className="grid gap-3 xl:grid-cols-2">
-        {selected !== null && (
-          <ErrorBoundary label="Lap history">
-            <LapHistory snapshot={snap} driver={selected} />
-          </ErrorBoundary>
-        )}
-        {cmpA !== null && cmpB !== null && (
-          <ErrorBoundary label="Sector comparison">
-            <SectorComparison snapshot={snap} a={cmpA} b={cmpB} onChange={(a, b) => setCompare([a, b])} />
-          </ErrorBoundary>
-        )}
-        <ErrorBoundary label="Lap time chart">
-          <LapTimeChart key={feed.scope} snapshot={snap} initial={[selected, cmpB, ...snap.rows.slice(0, 3).map((r) => r.driverNumber)].filter((x): x is number => x !== null)} />
-        </ErrorBoundary>
-        <ErrorBoundary label="Tyre strategy">
-          <TyreStintTimeline snapshot={snap} selected={selected} onSelect={onSelect} />
-        </ErrorBoundary>
-      </div>
+    <div className="grid grid-cols-[minmax(0,1fr)] items-start gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(420px,560px)] 2xl:grid-cols-[minmax(0,1.15fr)_minmax(560px,1fr)]">
+      {tower}
+      <SidePanel snap={snap} selected={selected} onSelect={onSelect} initialLapDrivers={[selected, ...snap.rows.slice(0, 3).map((r) => r.driverNumber)].filter((x): x is number => x !== null)} />
     </div>
   );
 }

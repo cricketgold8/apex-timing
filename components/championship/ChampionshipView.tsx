@@ -10,7 +10,7 @@ import { useSeason } from "@/lib/client/season";
 import type { StandingRow } from "@/lib/standings/standings";
 import { PageTitle } from "@/components/ui/DriverCell";
 import { ProviderErrorMessage, StateMessage } from "@/components/ui/primitives";
-import { ProvenanceNote } from "@/components/ui/Provenance";
+import { Segmented } from "@/components/ui/Popover";
 
 type Tab = "drivers" | "constructors";
 
@@ -65,42 +65,46 @@ export function ChampionshipView() {
   const nameOf = (id: string) => rows.find((r) => r.id === id)?.[tab === "drivers" ? "code" : "name"] ?? id;
 
   return (
-    <div className="flex flex-col gap-3">
-      <PageTitle title="2026 Championship">
-        <div className="flex gap-1" role="tablist" aria-label="Standings">
-          {(["drivers", "constructors"] as const).map((t) => (
-            <button key={t} role="tab" aria-selected={tab === t} className="btn" aria-pressed={tab === t} onClick={() => setTab(t)}>
-              {t === "drivers" ? "Drivers" : "Constructors"}
-            </button>
-          ))}
-        </div>
-        <span className="text-[12px] text-fg-2">
-          After round {s.lastRound}
-          {s.lastRoundName ? ` — ${s.lastRoundName}` : ""}
-          {s.lastRoundDate ? ` (${s.lastRoundDate})` : ""}. Not a projection.
-        </span>
+    <div className="flex flex-col gap-4">
+      <PageTitle
+        title="Standings"
+        subtitle={
+          <span className="inline-flex flex-wrap items-center gap-x-3 gap-y-1">
+            <span>
+              After round {s.lastRound}
+              {s.lastRoundName ? ` — ${s.lastRoundName}` : ""}
+            </span>
+            {verified ? (
+              <span className="inline-flex items-center gap-1 text-green" title={`Totals worked out from every race and sprint result match the officially published ${tab} standings.`}>
+                <CheckCircle2 size={14} aria-hidden /> Checked against published standings
+              </span>
+            ) : (
+              <span className="inline-flex items-center gap-1 text-yellow">
+                <TriangleAlert size={14} aria-hidden /> Differs from published standings: {mismatches.map((m) => `${nameOf(m.id)} ${m.computed} vs ${m.published}`).join("; ")}
+              </span>
+            )}
+          </span>
+        }
+        provenance={season.provenance}
+        info={
+          <p className="mb-2">
+            Points come from each classified race and sprint result (2026: 25-18-15-12-10-8-6-4-2-1 for a Grand Prix, 8 to 1 for a Sprint, no fastest-lap point). Ties are split by who has more wins, then more second places, and so on.
+            {v.pointsDiscrepancies.length > 0 ? ` ${v.pointsDiscrepancies.length} result(s) carry official points that differ from that table (e.g. penalties); the official figures are used.` : ""}
+          </p>
+        }
+      >
+        <Segmented
+          label="Standings"
+          value={tab}
+          options={[
+            { value: "drivers", label: "Drivers" },
+            { value: "constructors", label: "Teams" },
+          ]}
+          onChange={setTab}
+        />
       </PageTitle>
 
-      <div className={`flex items-start gap-2 rounded-[3px] border px-3 py-2 text-[12px] ${verified ? "border-green/40 bg-green/10" : "border-yellow/40 bg-yellow/10"}`} role="status">
-        {verified ? <CheckCircle2 size={15} className="mt-px text-green" aria-hidden /> : <TriangleAlert size={15} className="mt-px text-yellow" aria-hidden />}
-        <div>
-          {verified ? (
-            <>Standings computed here from {s.lastRound} rounds of classified race and sprint results match the provider&apos;s published {tab} standings exactly.</>
-          ) : (
-            <>
-              Computed standings differ from the provider&apos;s published standings (published after round {v.publishedRound ?? "?"}).{" "}
-              {mismatches.map((m) => `${nameOf(m.id)}: computed ${m.computed} vs published ${m.published}`).join("; ")}
-            </>
-          )}
-          {v.pointsDiscrepancies.length > 0 && (
-            <span className="block text-fg-2">
-              {v.pointsDiscrepancies.length} result(s) carry published points that differ from the plain 2026 table (e.g. penalties or shortened races); published values are used.
-            </span>
-          )}
-        </div>
-      </div>
-
-      <div className="grid gap-3 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+      <div className="grid gap-4 2xl:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)]">
         <section className="panel overflow-x-auto" aria-label={`${tab} standings`}>
           <table className="data-table tnum">
             <thead>
@@ -123,7 +127,7 @@ export function ChampionshipView() {
                     <th>Last 5 races</th>
                   </>
                 )}
-                <th className="text-center" title="Show in progression chart">
+                <th className="text-center" title="Show in the points chart">
                   Chart
                 </th>
               </tr>
@@ -170,8 +174,8 @@ export function ChampionshipView() {
 
         <section className="panel" aria-label="Points progression">
           <div className="panel-head">
-            <span className="panel-title">Points progression</span>
-            <span className="text-[11px] text-fg-3">cumulative after each round · up to {MAX_SERIES}</span>
+            <span className="panel-title">Points over the season</span>
+            <span className="ml-auto text-[12px] text-fg-3">Tick rows to add (up to {MAX_SERIES})</span>
           </div>
           <div className="flex flex-wrap gap-3 px-3 pt-2 text-[12px]">
             {chosen.map((id) => (
@@ -186,12 +190,12 @@ export function ChampionshipView() {
           ) : (
             <div className="p-2">
               <ResponsiveContainer width="100%" height={380}>
-                <LineChart data={chart} margin={{ top: 8, right: 48, bottom: 18, left: 0 }}>
+                <LineChart data={chart} margin={{ top: 8, right: 20, bottom: 18, left: 0 }}>
                   <CartesianGrid stroke="var(--grid)" vertical={false} />
                   <XAxis dataKey="round" tick={{ fill: "var(--text-3)", fontSize: 11 }} stroke="var(--line)" label={{ value: "Round", position: "insideBottom", offset: -10, fill: "var(--text-3)", fontSize: 11 }} />
                   <YAxis tick={{ fill: "var(--text-3)", fontSize: 11 }} stroke="var(--line)" width={44} label={{ value: "Points", angle: -90, position: "insideLeft", fill: "var(--text-3)", fontSize: 11 }} />
                   <Tooltip
-                    contentStyle={{ background: "var(--panel)", border: "1px solid var(--line)", fontSize: 12 }}
+                    contentStyle={{ background: "var(--panel)", border: "1px solid var(--line)", borderRadius: 10, fontSize: 12 }}
                     labelFormatter={(r) => `After round ${r}`}
                     formatter={(val, key) => [`${val} pts`, nameOf(String(key))]}
                     itemSorter={(item) => -Number(item.value)}
@@ -204,15 +208,6 @@ export function ChampionshipView() {
                       strokeWidth={2}
                       dot={false}
                       isAnimationActive={false}
-                      label={(p: { index?: number; x?: number | string; y?: number | string }) =>
-                        p.index === chart.length - 1 ? (
-                          <text key={`${id}-l`} x={Number(p.x) + 6} y={Number(p.y)} dominantBaseline="middle" fontSize={11} fontWeight={700} fill="var(--text-2)">
-                            {tab === "drivers" ? nameOf(id) : (nameOf(id) as string).split(" ")[0]}
-                          </text>
-                        ) : (
-                          <g key={`${id}-${p.index}`} />
-                        )
-                      }
                     />
                   ))}
                 </LineChart>
@@ -221,7 +216,6 @@ export function ChampionshipView() {
           )}
         </section>
       </div>
-      <ProvenanceNote provenance={season.provenance} />
     </div>
   );
 }

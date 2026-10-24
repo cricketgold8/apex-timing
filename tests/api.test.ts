@@ -2,6 +2,8 @@ import { NextRequest } from "next/server";
 import { afterEach, describe, expect, it } from "vitest";
 import { GET } from "@/app/api/timing/[resource]/route";
 import { SEASON_2026, scheduleState } from "@/lib/config/season-2026";
+import { upstreamErrorBody } from "@/lib/server/respond";
+import { UpstreamError } from "@/lib/server/upstream";
 
 /**
  * Route-level checks of the provider contract. None of these touch the network: every refusal happens before an
@@ -49,6 +51,13 @@ describe("timing API", () => {
     const { status, body } = await call("snapshot", `mode=historical&session=${cancelled!.openf1SessionKey}`);
     expect(status).toBe(404);
     expect(String(body.error)).toMatch(/cancelled/);
+  });
+
+  it("explains OpenF1's lock during live sessions in plain words", () => {
+    const locked = new UpstreamError('HTTP 401: {"detail":"Live F1 session in progress. Global API access (including past sessions) is restricted to authenticated users until the session ends."}', 401, "OpenF1", "x");
+    expect(upstreamErrorBody(locked)).toMatchObject({ code: "LIVE_LOCKED", mode: "UNAVAILABLE" });
+    expect(upstreamErrorBody(new UpstreamError("HTTP 401", 401, "OpenF1", "x")).code).toBe("UNAUTHORISED");
+    expect(upstreamErrorBody(new UpstreamError("HTTP 429", 429, "OpenF1", "x")).code).toBe("RATE_LIMITED");
   });
 
   it("validates parameters", async () => {
